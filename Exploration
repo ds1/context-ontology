@@ -1,0 +1,599 @@
+# Design Token Context Ontology
+
+## Foundation: The Token Tier Model
+
+The industry has converged on a tiered abstraction model for design tokens:
+
+```
+PRIMITIVES (raw values, no semantic meaning)
+    ↓
+OPTIONS (constrained palette, still abstract)
+    ↓
+DECISIONS (semantic intent, context-free)
+    ↓
+COMPONENTS (scoped to component anatomy)
+    ↓
+INSTANCES (specific variant × state × context)
+```
+
+### Tier Definitions
+
+**Primitives**: Raw material. Never referenced directly in code—only by other tokens. Exhaustive and finite; if a value isn’t here, it doesn’t exist in the system.
+
+**Options**: Curated subsets establishing palette boundaries. Still no semantic meaning. Constrains choice from primitives.
+
+**Decisions**: Semantic tokens expressing intent. Context-free—they say *what* without *where*. Reusable across components.
+
+**Components**: Scoped to component anatomy. Reference decisions, not options. A button doesn’t know it’s blue—it knows it’s “action.primary.”
+
+**Instances**: Specific variants, states, and contexts. The only place context-specific values live. Explicit, not overrides.
+
+-----
+
+## The Context Problem
+
+Context-awareness in design systems is emerging but fragmented. Current industry approaches are limited:
+
+|System           |Context Support                                                    |
+|-----------------|-------------------------------------------------------------------|
+|Figma Variables  |“Modes” (flat, no hierarchy, no inheritance)                       |
+|Tokens Studio    |“Theme sets” (layerable, but primarily for brand/theme switching)  |
+|Adobe Spectrum   |“Scale” + “Platform” (two dimensions only)                         |
+|Material Design 3|“Density” subsystem (parallel token set, not contextual resolution)|
+
+**The gap**: Nobody has formalized a comprehensive context taxonomy. Context is typically reduced to theme (light/dark), platform (web/iOS/Android), and maybe density (compact/default). This is primitive. Real context is multidimensional and intersectional.
+
+-----
+
+## Context as Coordinate System
+
+Context isn’t a single dimension—it’s a coordinate system. A component exists at a specific point in context-space defined by multiple independent axes.
+
+-----
+
+## Context Dimensions
+
+### Platform & Runtime
+
+```yaml
+platform:
+  description: "The rendering environment"
+  values: [web, ios, android, macos, windows, embedded]
+  affects: [typography.system_fonts, spacing.safe_areas, radius.platform_conventions]
+  
+runtime:
+  description: "Execution context within platform"
+  values: [browser, pwa, webview, native, electron]
+  affects: [capability.offline, interaction.native_gestures]
+```
+
+### Input & Interaction
+
+```yaml
+input_modality:
+  description: "Primary input mechanism"
+  values: [pointer, touch, stylus, keyboard, voice, gaze]
+  affects: [spacing.touch_targets, feedback.hover_states, timing.response]
+  
+input_precision:
+  description: "Fine vs coarse input"
+  values: [precise, coarse]
+  derived_from: [input_modality, device_type]
+  affects: [spacing.hit_areas, sizing.interactive_minimums]
+```
+
+### Viewport & Layout
+
+```yaml
+viewport_class:
+  description: "Available screen real estate"
+  values: [compact, medium, expanded, large]
+  breakpoints: [0-599, 600-904, 905-1239, 1240+]
+  affects: [spacing.margins, layout.columns, typography.scale]
+  
+orientation:
+  description: "Screen orientation"
+  values: [portrait, landscape]
+  affects: [layout.structure, spacing.safe_areas]
+  
+pixel_density:
+  description: "Physical pixel density"
+  values: [standard, retina, high_dpi]
+  affects: [border.hairlines, shadow.crispness, asset.resolution]
+```
+
+### Information Density
+
+```yaml
+density:
+  description: "Visual/spatial density preference"
+  values: [compact, default, comfortable]
+  affects: [spacing.all, typography.line_height, sizing.components]
+  
+information_load:
+  description: "Data complexity of the view"
+  values: [minimal, moderate, dense, extreme]
+  affects: [spacing.rhythm, color.contrast, hierarchy.levels]
+```
+
+### Theme & Appearance
+
+```yaml
+color_scheme:
+  description: "Light or dark appearance"
+  values: [light, dark]
+  affects: [color.all, shadow.opacity, border.visibility]
+  
+contrast_level:
+  description: "Contrast intensity"
+  values: [standard, increased, high]
+  affects: [color.foreground, color.background, border.weight]
+  
+brand_expression:
+  description: "Brand intensity level"
+  values: [full, subtle, neutral, white_label]
+  affects: [color.brand, typography.display, radius.personality]
+```
+
+### Accessibility
+
+```yaml
+motion_preference:
+  description: "User's motion tolerance"
+  values: [full, reduced, none]
+  affects: [animation.duration, animation.type, transition.enabled]
+  
+text_scale:
+  description: "User's text size preference"
+  values: [default, large, larger, largest]
+  affects: [typography.scale, spacing.derived, layout.reflow]
+```
+
+### Temporal & State
+
+```yaml
+user_expertise:
+  description: "User's familiarity with the product"
+  values: [novice, intermediate, expert]
+  affects: [density.default, disclosure.progressive, guidance.level]
+  
+session_state:
+  description: "Where user is in their session"
+  values: [onboarding, active, idle, returning]
+  affects: [animation.emphasis, guidance.visibility]
+  
+system_state:
+  description: "System health/performance"
+  values: [optimal, degraded, offline, error]
+  affects: [feedback.latency, animation.complexity, asset.quality]
+```
+
+### Environmental (Emerging)
+
+```yaml
+ambient_light:
+  description: "Environmental lighting conditions"
+  values: [bright, normal, dim, dark]
+  affects: [color.brightness, contrast.level]
+  
+attention_context:
+  description: "User's attention availability"
+  values: [focused, divided, glanceable]
+  affects: [information.density, feedback.salience, animation.attention]
+```
+
+### Localization
+
+```yaml
+reading_direction:
+  description: "Text directionality"
+  values: [ltr, rtl]
+  affects: [layout.mirroring, spacing.inline_start, icon.direction]
+  
+script_complexity:
+  description: "Writing system characteristics"
+  values: [latin, cjk, arabic, indic, mixed]
+  affects: [typography.line_height, spacing.vertical, layout.wrapping]
+```
+
+-----
+
+## Context Volatility Hierarchy
+
+Dimensions form a hierarchy based on volatility and scope:
+
+```
+IMMUTABLE (set at build time)
+├── platform
+├── runtime
+└── reading_direction
+
+STABLE (set at app/session init)
+├── viewport_class
+├── pixel_density
+├── color_scheme (system-level)
+├── motion_preference
+├── text_scale
+├── script_complexity
+└── brand_expression
+
+SEMI-STABLE (changes within session)
+├── orientation
+├── user_expertise
+├── session_state
+└── contrast_level (if user-toggled)
+
+VOLATILE (changes within view)
+├── density
+├── information_load
+├── input_modality (hybrid devices)
+├── attention_context
+└── system_state
+
+INHERITED (derived from container)
+├── density (can be scoped to regions)
+├── information_load
+└── color_scheme (nested surfaces)
+```
+
+### Resolution Strategy by Volatility
+
+- **Immutable contexts** → Compile-time token selection (platform-specific builds)
+- **Stable contexts** → Runtime initialization (CSS custom properties set on `:root`)
+- **Semi-stable contexts** → Reactive updates (state change triggers token recalculation)
+- **Volatile contexts** → Scoped declaration (component or region declares its context)
+- **Inherited contexts** → Cascade (child inherits parent unless explicitly overridden)
+
+-----
+
+## Context Intersection
+
+A component doesn’t exist in “touch context” or “dark context”—it exists at a coordinate:
+
+```yaml
+button.instance = resolve(
+  platform: web,
+  input_modality: touch,
+  viewport_class: compact,
+  density: default,
+  color_scheme: dark,
+  contrast_level: standard,
+  motion_preference: reduced,
+  brand_expression: full
+)
+```
+
+### Resolution Strategies for Intersections
+
+**Multiplicative (naïve)**: Create a token for every intersection. Explodes exponentially—unusable.
+
+**Priority-ordered (current industry approach)**: Flatten to a priority list. “Dark mode wins, then density, then platform.” Loses nuance.
+
+**Dimensional resolution (emerging)**: Each token declares which dimensions it cares about. Resolution finds the most specific match.
+
+```yaml
+component.button.padding:
+  base: "{decision.space.inset.md}"
+  
+  when:
+    - match: { density: compact }
+      value: "{decision.space.inset.sm}"
+      
+    - match: { density: compact, input_modality: touch }
+      value: "{decision.space.inset.md}"  # touch overrides compact's reduction
+      
+    - match: { input_modality: touch }
+      value: "{decision.space.inset.lg}"
+      
+    - match: { viewport_class: compact, density: compact }
+      value: "{decision.space.inset.xs}"  # both compact = extra reduction
+```
+
+**Resolution algorithm**:
+
+1. Find all `match` clauses satisfied by current context
+1. Score by specificity (more dimensions matched = higher score)
+1. Highest score wins; ties broken by declaration order
+1. If no match, use `base`
+
+-----
+
+## Context Types: Named Intersections
+
+Rather than specifying every dimension, define **context types** as named intersections:
+
+```yaml
+context_types:
+
+  dense_data:
+    description: "High-information interfaces like tables and dashboards"
+    defaults:
+      density: compact
+      information_load: dense
+      input_modality: pointer
+    affects:
+      spacing: reduced
+      typography: tighter line-height
+      interactive: smaller targets acceptable
+      
+  comfortable_reading:
+    description: "Long-form content consumption"
+    defaults:
+      density: comfortable
+      information_load: minimal
+      input_modality: pointer
+    affects:
+      spacing: generous
+      typography: optimal reading width, relaxed line-height
+      
+  touch_primary:
+    description: "Touch-first interaction surfaces"
+    defaults:
+      input_modality: touch
+      input_precision: coarse
+    affects:
+      spacing: increased hit areas
+      interactive: minimum 44px targets
+      feedback: no hover-dependent states
+      
+  glanceable:
+    description: "Quick-scan interfaces (notifications, widgets)"
+    defaults:
+      attention_context: glanceable
+      information_load: minimal
+    affects:
+      typography: larger, bolder
+      hierarchy: flattened, essential only
+      animation: attention-grabbing permitted
+      
+  embedded_foreign:
+    description: "Widget embedded in third-party context"
+    defaults:
+      brand_expression: neutral
+    affects:
+      color: muted brand presence
+      typography: inherit or system
+      radius: conservative
+      
+  accessibility_enhanced:
+    description: "User has accessibility preferences active"
+    inherits_from: [high_contrast, reduced_motion, large_text]
+    affects:
+      color: increased contrast
+      animation: disabled or reduced
+      typography: scaled up
+      focus: enhanced visibility
+```
+
+-----
+
+## Context Inheritance & Scoping
+
+Context flows down the tree but can be overridden:
+
+```jsx
+<App context={{ color_scheme: 'dark', density: 'default' }}>
+  
+  <Sidebar context={{ density: 'compact' }}>
+    {/* inherits dark, overrides to compact */}
+    <NavButton />  {/* resolves: dark + compact */}
+  </Sidebar>
+  
+  <Main>
+    {/* inherits dark + default */}
+    <DataTable context={{ density: 'compact', information_load: 'dense' }}>
+      {/* dark + compact + dense */}
+      <RowAction />  {/* resolves with dense_data context type */}
+    </DataTable>
+    
+    <Modal context={{ color_scheme: 'light' }}>
+      {/* overrides to light, inherits default density */}
+      <ConfirmButton />  {/* resolves: light + default */}
+    </Modal>
+  </Main>
+  
+</App>
+```
+
+### Inheritance Rules
+
+```yaml
+context_inheritance:
+  
+  full_inherit:
+    # Child gets parent value unless overridden
+    - color_scheme
+    - density
+    - brand_expression
+    - reading_direction
+    - motion_preference
+    - text_scale
+    
+  constrained_inherit:
+    # Child inherits but can't exceed parent
+    - contrast_level     # child can match or increase, not decrease
+    - information_load   # child can match or increase density
+    
+  no_inherit:
+    # Always explicit or derived
+    - input_modality    # derived from device/interaction
+    - viewport_class    # derived from container measurement
+    - system_state      # global, not hierarchical
+    
+  inverse_inherit:
+    # Child defaults to opposite
+    - color_scheme      # modals often invert for emphasis
+```
+
+-----
+
+## Context Detection vs Declaration
+
+```yaml
+context_source:
+
+  declared:
+    # Explicitly set by developer or designer
+    - density
+    - information_load
+    - brand_expression
+    - context_type (convenience wrapper)
+    
+  detected_system:
+    # Read from system/browser
+    - platform
+    - color_scheme (prefers-color-scheme)
+    - motion_preference (prefers-reduced-motion)
+    - contrast_level (prefers-contrast)
+    - text_scale (font-size on html)
+    - reading_direction (dir attribute)
+    
+  detected_environment:
+    # Inferred from sensors or viewport
+    - viewport_class (measured)
+    - orientation (measured)
+    - pixel_density (devicePixelRatio)
+    - input_modality (pointer: coarse/fine, hover: hover/none)
+    - ambient_light (AmbientLightSensor API, limited support)
+    
+  inferred:
+    # Derived from behavioral signals
+    - user_expertise (onboarding completion, usage patterns)
+    - session_state (time since interaction, navigation depth)
+    - attention_context (viewport visibility, interaction recency)
+```
+
+-----
+
+## Token Resolution Model
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        CONTEXT COORDINATE                        │
+│  { platform, viewport, input, density, scheme, contrast, ... }  │
+└─────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      CONTEXT TYPE MATCHING                       │
+│  Match against defined types: dense_data? touch_primary?        │
+│  Multiple types can match → merge with specificity              │
+└─────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     INSTANCE TOKEN LOOKUP                        │
+│  instance.button.context.{matched_type}.padding                 │
+│  Falls back to component.button.padding if no match             │
+└─────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     COMPONENT TOKEN                              │
+│  component.button.padding                                        │
+│  References decision token                                       │
+└─────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     DECISION TOKEN                               │
+│  decision.space.inset.md                                        │
+│  May have context-conditional resolution                        │
+└─────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     OPTION TOKEN                                 │
+│  option.space.md                                                 │
+│  Stable reference to curated value                              │
+└─────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     PRIMITIVE TOKEN                              │
+│  primitive.space.4 = "16px"                                     │
+│  Raw value                                                       │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+-----
+
+## Exception Logging (SSOT with Learning)
+
+SSOT governs the hierarchy. A parallel system captures signals:
+
+```yaml
+exceptions:
+  - id: "EXC-2024-031"
+    component: "button"
+    context: "data-table-row"
+    token_affected: "component.button.padding.block"
+    system_value: "8px"
+    actual_value: "6px"
+    rationale: "Row height constraint; 8px causes vertical overflow"
+    logged_by: "sarah.chen"
+    date: "2024-03-15"
+    status: "under_review"
+```
+
+**Exception statuses**:
+
+- `logged` → Exception exists, not yet reviewed
+- `under_review` → Governance evaluating
+- `rejected` → Must use system value; rationale documented
+- `accepted` → Allowed to persist as hardcoded exception
+- `promoted` → Exception became a new instance token
+
+**Feedback loop**:
+
+```
+Exception logged
+      ↓
+Pattern detected (3+ similar exceptions)
+      ↓
+Governance review
+      ↓
+Either: New instance token created (system learns)
+   Or: Context type formalized
+   Or: Rejection with precedent documented
+```
+
+-----
+
+## Open Questions for Ontology Completion
+
+1. **Dimension completeness**: What context dimensions are missing from this taxonomy?
+1. **Dimension interactions**: Which dimensions have dependencies or conflicts with each other?
+1. **Context type coverage**: What common UI contexts aren’t captured by the defined context types?
+1. **Inheritance edge cases**: Where does the inheritance model break down?
+1. **Detection reliability**: Which inferred/detected contexts have reliability problems?
+1. **Resolution ambiguity**: Where does the resolution algorithm produce unexpected or contested results?
+1. **Governance scalability**: How does the exception/promotion process scale across large organizations?
+1. **Tooling requirements**: What tooling is necessary to make this model practical?
+1. **Migration path**: How do existing design systems migrate to this model incrementally?
+1. **Performance implications**: What are the runtime costs of contextual resolution?
+
+-----
+
+## Naming Convention
+
+```
+{tier}.{domain}.{element}.{modifier}.{state}.{context}
+
+primitive.color.blue.500
+option.color.brand
+decision.color.action.primary.hover
+component.button.background
+instance.button.secondary.background
+instance.button.context.dense.padding.block
+```
+
+-----
+
+## Design Principles
+
+1. **SSOT preserved**: Every resolved value traces back through the chain. No magic, no hidden overrides.
+1. **Context-awareness without chaos**: Context types are finite and governed. You can’t invent contexts arbitrarily.
+1. **Predictable blast radius**: Each tier has a known scope of impact when changed.
+1. **Testability**: Given a context coordinate, resolution is deterministic.
+1. **Documentation as artifact**: The context taxonomy documents the system’s opinion about what contexts matter.
