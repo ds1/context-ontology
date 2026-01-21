@@ -37,11 +37,12 @@ The complete specification defining:
 
 ### [Token Collections](tokens/)
 
-W3C Design Tokens format implementation with 9 multi-mode collections (~2,500 tokens):
+W3C Design Tokens format implementation with 10 collections (~2,750 tokens):
 
 ```
 tokens/
 ├── collections/
+│   ├── primitives.json  # Raw color palette (blue-500, gray-200, etc.)
 │   ├── theme.json       # Light / Dark / Dim color schemes
 │   ├── density.json     # Compact / Comfortable / Spacious spacing
 │   ├── viewport.json    # Mobile / Tablet / Desktop layouts
@@ -58,6 +59,7 @@ tokens/
 
 | Collection | Modes | Purpose |
 |------------|-------|---------|
+| **Primitives** | — | Raw color palette: 22 scales (gray→rose) × 11 steps (50-950) |
 | **Theme** | light, dark, dim | Color schemes with surfaces, foregrounds, borders, status colors |
 | **Density** | compact, comfortable, spacious | Spacing, sizing, touch targets, component dimensions |
 | **Viewport** | mobile, tablet, desktop | Responsive layouts, grids, breakpoints, navigation patterns |
@@ -132,8 +134,13 @@ Each token has explicit values for ALL modes in its collection:
 ### Use Directly
 
 ```javascript
+import primitives from './tokens/collections/primitives.json';
 import theme from './tokens/collections/theme.json';
 import density from './tokens/collections/density.json';
+
+// Access raw color primitives
+const blue500 = primitives.blue['500'].$value; // #3b82f6
+const gray200 = primitives.gray['200'].$value; // #e5e5e5
 
 // Get light mode surface color
 const surfaceLight = theme.surface.default.$extensions.mode.light; // #ffffff
