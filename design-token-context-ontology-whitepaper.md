@@ -1,6 +1,6 @@
 # Design Token Context Ontology
 
-## A Comprehensive Framework for Multi-Dimensional Token Resolution
+## A Specification for Multi-Dimensional Token Resolution
 
 **Version 1.0** | **January 2026**
 
@@ -8,162 +8,141 @@
 
 ## Abstract
 
-Design tokens have emerged as the foundational building blocks for scalable design systems, yet existing implementations inadequately address the contextual dimensions that govern token resolution. This whitepaper presents a comprehensive analysis of twelve context categories essential for robust token architecture, identifies 47 missing dimensions across these categories, documents 78 cross-category dependencies, and catalogs 52 edge cases that break current implementations.
+Design tokens represent the atomic values of a design system, but their resolution depends on context—a multidimensional coordinate system of environmental conditions, user preferences, and runtime states. This specification defines a comprehensive context ontology comprising 12 categories, 93 dimensions, and 78 cross-category dependencies that govern how design tokens resolve to concrete values.
 
-Our analysis reveals that existing ontologies cover approximately 60% of real-world context requirements. Critical gaps exist in accessibility variants beyond motion preferences, foldable device support, component lifecycle states, and locale-specific typography handling. This document provides a systematic framework for extending design token ontologies to achieve complete contextual coverage.
+The ontology classifies each dimension by volatility, defines context types as named intersections of common dimension combinations, specifies inheritance rules for how context flows through component hierarchies, and establishes resolution algorithms for handling dimension conflicts. Every resolved token value traces back through an explicit chain, supporting a Single Source of Truth (SSOT) architecture with controlled contextual variation.
+
+This document serves as the authoritative reference for implementing context-aware design token systems.
 
 ---
 
 ## Table of Contents
 
 1. [Introduction](#1-introduction)
-2. [Methodology](#2-methodology)
-3. [Context Category Analysis](#3-context-category-analysis)
-   - 3.1 Appearance and Theme Contexts
-   - 3.2 Density and Spacing Contexts
-   - 3.3 Viewport and Responsive Contexts
-   - 3.4 Container Sizing Contexts
+2. [Core Concepts](#2-core-concepts)
+3. [Context Categories](#3-context-categories)
+   - 3.1 Appearance and Theme
+   - 3.2 Density and Spacing
+   - 3.3 Viewport and Responsive
+   - 3.4 Container Sizing
    - 3.5 Interaction States (Mutually Exclusive)
-   - 3.6 Additive and Combinable States
-   - 3.7 Accessibility Contexts
-   - 3.8 Locale and Internationalization Contexts
-   - 3.9 Platform and Runtime Contexts
-   - 3.10 Elevation and Surface Contexts
-   - 3.11 Semantic and Feedback Contexts
-   - 3.12 Structural Contexts
-4. [Cross-Category Dependency Analysis](#4-cross-category-dependency-analysis)
-5. [Recommendations](#5-recommendations)
-6. [Proposed Token Architecture](#6-proposed-token-architecture)
-7. [Conclusion](#7-conclusion)
-8. [Appendices](#appendix-a-terminology-reference)
-   - A. Terminology Reference
-   - B. Referenced Design Systems
-   - C. Referenced Specifications
+   - 3.6 Combinable States
+   - 3.7 Accessibility
+   - 3.8 Locale and Internationalization
+   - 3.9 Platform and Runtime
+   - 3.10 Elevation and Surface
+   - 3.11 Semantic and Feedback
+   - 3.12 Structural
+4. [Context Types](#4-context-types)
+5. [Inheritance and Scoping](#5-inheritance-and-scoping)
+6. [Resolution Algorithm](#6-resolution-algorithm)
+7. [Cross-Category Dependencies](#7-cross-category-dependencies)
+8. [Token Architecture](#8-token-architecture)
+9. [Conclusion](#9-conclusion)
+10. [Appendices](#appendix-a-terminology)
 
 ---
 
 ## 1. Introduction
 
-Design tokens represent the atomic values that define a design system—colors, typography, spacing, and other visual properties stored as named entities. As design systems mature and deployment contexts multiply, the challenge of contextual token resolution becomes increasingly complex. A color token must resolve differently in light mode versus dark mode, on high-contrast displays versus standard displays, and across platforms with varying color format requirements.
+Design tokens have become foundational infrastructure for scalable design systems. The industry has converged on a tiered abstraction model—primitives, options, decisions, components, instances—but context-awareness remains fragmented. Current approaches treat context as flat modes (light/dark, desktop/mobile) rather than as a coordinate system with inheritance, intersection, and resolution rules.
 
-This whitepaper presents a rigorous stress test of design token context ontologies, examining twelve fundamental categories that govern token resolution. Through systematic analysis of industry implementations from Adobe Spectrum, IBM Carbon, Material Design, Atlassian, Salesforce Lightning, and others, we identify gaps in current approaches and propose extensions to achieve comprehensive contextual coverage.
+This specification establishes a comprehensive context ontology that enables:
 
-### 1.1 Scope
+- **Complete enumeration** of all context dimensions affecting token resolution
+- **Volatility classification** indicating how frequently each dimension changes
+- **Named context types** for common dimension intersections
+- **Inheritance rules** for context flow through component trees
+- **Resolution algorithms** for handling dimension conflicts
+- **Detection mechanisms** distinguishing inferrable from declarative contexts
 
-This analysis covers:
+### 1.1 Design Philosophy
 
-- **Enumeration completeness**: Missing values within existing dimension enumerations
-- **Naming consistency**: Terminology conflicts across implementations
-- **Detection mechanisms**: Browser and platform API availability for context detection
-- **Cross-category dependencies**: Interactions between orthogonal context dimensions
-- **Edge cases**: Scenarios where current approaches fail
+This ontology supports a Single Source of Truth (SSOT) architecture with controlled contextual variation:
 
-### 1.2 Key Findings Summary
+1. **Explicit chains**: Every resolved token value traces back through a documented path
+2. **Governed types**: Context types are finite and governed, not arbitrary
+3. **Learnable friction**: Exceptions are logged and can be promoted to formal tokens when patterns emerge
+4. **Predictable blast radius**: Changes at any abstraction tier have bounded, knowable effects
 
-| Metric | Count |
-|--------|-------|
-| Missing dimensions identified | 47 |
-| Cross-category dependencies documented | 78 |
-| Edge cases cataloged | 52 |
-| Current coverage estimate | ~60% |
+### 1.2 Specification Scope
 
----
+This specification covers:
 
-## 2. Methodology
-
-Our analysis employed a systematic four-phase evaluation framework:
-
-### Phase 1: Taxonomy Construction
-
-We inventoried context dimensions from production design systems including Material Design 3, IBM Carbon, Atlassian Design System, Adobe Spectrum, Salesforce Lightning, SAP Fiori, and GitHub Primer. For each system, we documented:
-
-- Dimension enumerations and their values
-- Detection mechanisms (CSS media queries, JavaScript APIs, platform-specific methods)
-- Token naming conventions and hierarchies
-
-### Phase 2: Validation Testing
-
-Each dimension underwent validation against authoritative specifications:
-
-- **CSS Specifications**: Media Queries Level 5, Color Level 4, Containment Level 3, Writing Modes Level 4
-- **Accessibility Standards**: WCAG 2.2, WAI-ARIA 1.2
-- **Platform Documentation**: Apple Human Interface Guidelines, Material Design, Microsoft Fluent
-
-This phase identified enumeration completeness gaps and detection mechanism viability.
-
-### Phase 3: Dependency Mapping
-
-Cross-category relationships were documented through systematic pairwise analysis:
-
-- **Explicit dependencies**: Documented in source design systems
-- **Implicit dependencies**: Discovered through edge case testing
-- **Conditional dependencies**: Active only under specific context conditions
-
-### Phase 4: Edge Case Synthesis
-
-Conflict scenarios were constructed by combining dimensions across categories to identify:
-
-- Resolution ambiguities where multiple valid interpretations exist
-- Breaking conditions where current approaches fail
-- Compound states requiring explicit handling
+| Aspect | Description |
+|--------|-------------|
+| **93 dimensions** | Complete enumeration across 12 categories |
+| **78 dependencies** | Cross-category relationships requiring coordination |
+| **52 conflict scenarios** | Documented resolution rules for dimension intersections |
+| **5 volatility classes** | Classification of dimension change frequency |
 
 ---
 
-## 3. Context Category Analysis
+## 2. Core Concepts
 
-### 3.1 Appearance and Theme Contexts
+### 2.1 Volatility Classification
+
+Every dimension is classified by how frequently its value changes during a session:
+
+| Class | Definition | Examples | Typical Scope |
+|-------|------------|----------|---------------|
+| **Immutable** | Fixed for the entire session; set at initialization | Platform, browser engine, device capabilities | Application |
+| **Stable** | Changes only through explicit user action in settings | Color scheme, density preference, locale | User session |
+| **Semi-stable** | May change during session but infrequently | Viewport size, orientation, fold posture | Page/view |
+| **Volatile** | Changes frequently during normal interaction | Hover, focus, scroll position | Component |
+| **Inherited** | Derived from ancestor context, not set directly | Nesting depth, container size, surface level | Subtree |
+
+Volatility classification informs caching strategies, invalidation boundaries, and appropriate detection mechanisms.
+
+### 2.2 Detection Mechanisms
+
+Contexts are detected through one of three mechanisms:
+
+| Mechanism | Description | Examples |
+|-----------|-------------|----------|
+| **Inferred** | Automatically detected via platform APIs | `prefers-color-scheme`, `pointer: coarse`, viewport dimensions |
+| **Declared** | Explicitly set by application or component | Brand theme, density mode, surface level |
+| **Computed** | Derived from other context values | Text expansion factor (from locale), tonal surface color (from theme + elevation) |
+
+### 2.3 Context Coordinates
+
+A **context coordinate** is the complete set of dimension values at a given point in the component tree. Token resolution maps context coordinates to concrete values:
+
+```
+resolve(token, coordinate) → value
+```
+
+Context coordinates support partial specification—unspecified dimensions inherit from ancestors or fall back to defaults.
+
+---
+
+## 3. Context Categories
+
+### 3.1 Appearance and Theme
 
 Appearance contexts govern visual presentation based on user preferences, system settings, and brand requirements.
 
-#### Current Dimension Inventory
+#### Dimension Inventory
 
-| Dimension | Enumerated Values | Detection Mechanism |
-|-----------|-------------------|---------------------|
-| Color mode | light, dark | `prefers-color-scheme` media query |
-| High contrast | enabled, disabled | `prefers-contrast: more` |
-| Forced colors | active, none | `forced-colors` media query |
-| Inverted colors | inverted, none | `inverted-colors` (Safari only) |
-| Brand theme | implementation-specific | CSS class/attribute |
-| Color scheme variant | tinted, vivid, muted | Custom implementation |
-
-#### Validation Findings
-
-**Missing Values in Current Enumerations**
-
-The color mode dimension lacks several values present in production systems:
-- `auto` for system deference
-- `dim` as implemented in GitHub's "dark-dimmed" variant
-- Explicit contrast variants (`light-high-contrast`, `dark-high-contrast`)
-
-High contrast implementation is notably incomplete. Windows provides four preset themes (High Contrast Black, White, Aquatic, Desert) plus eight customizable system colors. The current binary model cannot represent this complexity.
-
-Color scheme variants exhibit significant taxonomic variation across systems. Adobe Spectrum employs `lightest/light/dark/darkest` (four levels), while IBM Carbon uses named themes (`white`, `g10`, `g90`, `g100`).
-
-**Naming Inconsistencies**
-
-The terminology "mode" versus "scheme" versus "theme" is inconsistently applied across the industry. Atlassian uses `data-color-mode`, CSS specification uses `color-scheme`, and Material Design uses `theme`. We recommend standardizing to "scheme" for system preferences and "theme" for brand/application choices.
-
-**Detection Mechanism Gaps**
-
-- `inverted-colors` fires only in Safari; cross-browser detection requires JavaScript fallback
-- No media query exists for dynamic color extraction source (Material You's wallpaper-based theming)
-- Color gamut detection (`color-gamut: p3`) exists but has no corresponding token pattern in major design systems
-
-#### Missing Dimensions
-
-| Dimension | Definition | Values | Detection |
-|-----------|------------|--------|-----------|
-| **Dynamic color source** | Algorithmic palette from source image | `wallpaper`, `brand-logo`, `content-image`, `user-selected`, `none` | Platform API (Android `DynamicColors`, iOS 15+) |
-| **Color temperature** | Warm/cool tint variant | `warm`, `neutral`, `cool` | User preference setting |
-| **Color gamut context** | Display's color space capability | `srgb`, `p3`, `rec2020` | `@media (color-gamut: p3)` |
-| **Tonal elevation mode** | Elevation representation method | `tonal`, `shadow`, `hybrid` | Theme configuration |
-| **Fixed accent preservation** | Colors persisting across modes | `preserve`, `adapt` | Token flag |
+| Dimension | Values | Volatility | Detection |
+|-----------|--------|------------|-----------|
+| **Color scheme** | `light`, `dark`, `auto`, `dim` | Stable | Inferred: `prefers-color-scheme`; Declared: theme setting |
+| **Contrast preference** | `standard`, `more`, `less` | Stable | Inferred: `prefers-contrast` |
+| **Forced colors** | `none`, `active` | Stable | Inferred: `forced-colors` |
+| **Inverted colors** | `none`, `inverted` | Stable | Inferred: `inverted-colors` (limited) |
+| **High contrast theme** | `none`, `black`, `white`, `aquatic`, `desert`, `custom` | Stable | Inferred: Platform API |
+| **Brand theme** | Implementation-specific | Stable | Declared |
+| **Color scheme variant** | `standard`, `tinted`, `vivid`, `muted` | Stable | Declared |
+| **Dynamic color source** | `none`, `wallpaper`, `brand-logo`, `content-image`, `user-selected` | Stable | Inferred: Platform API |
+| **Color temperature** | `warm`, `neutral`, `cool` | Stable | Declared |
+| **Color gamut** | `srgb`, `p3`, `rec2020` | Immutable | Inferred: `color-gamut` |
+| **Tonal elevation mode** | `tonal`, `shadow`, `hybrid` | Stable | Declared |
 
 #### Cross-Category Dependencies
 
 ```
 Appearance ──────┬─── Elevation: Tonal elevation derives surface tint from
-                 │               theme's primary color; dark mode reverses
+                 │               theme's primary color; dark scheme reverses
                  │               elevation direction (surfaces lighten upward)
                  │
                  ├─── Accessibility: forced-colors overrides ALL theme colors;
@@ -174,133 +153,89 @@ Appearance ──────┬─── Elevation: Tonal elevation derives sur
                                 Android requires @android:color/system_* tokens
 ```
 
-#### Edge Cases
+#### Conflict Resolution
 
-| Scenario | Conflict | Resolution |
-|----------|----------|------------|
-| High contrast + dark mode simultaneous | `prefers-contrast: more` triggers but theme choice unclear | Query both: `@media (prefers-color-scheme: dark) and (prefers-contrast: more)` |
-| Forced colors with brand theme | System colors override brand tokens | Use `forced-color-adjust: none` sparingly; map brand semantics to system color keywords |
-| Multi-brand portal with shared components | Token namespace collisions | Prefix tokens at primitive level: `{brand}.color.primary` |
-| Print stylesheet from dark mode | Dark backgrounds waste ink | `@media print` resets to light mode values, removes decorative colors |
+| Scenario | Rule | Rationale |
+|----------|------|-----------|
+| High contrast + dark scheme active | Apply both: `@media (prefers-color-scheme: dark) and (prefers-contrast: more)` | User preferences are additive |
+| Forced colors + brand theme | Forced colors wins; map brand semantics to system color keywords | Accessibility override |
+| Multi-brand portal | Namespace at primitive level: `{brand}.color.primary` | Prevent collision |
+| Print from dark scheme | Reset to light values; remove decorative colors | Practical output |
 
 ---
 
-### 3.2 Density and Spacing Contexts
+### 3.2 Density and Spacing
 
-Density contexts control the spatial relationships between interface elements, affecting information density, touch target sizing, and visual hierarchy.
+Density contexts control spatial relationships between interface elements, affecting information density, touch target sizing, and visual hierarchy.
 
-#### Current Dimension Inventory
+#### Dimension Inventory
 
-| Dimension | Enumerated Values | Detection Mechanism |
-|-----------|-------------------|---------------------|
-| Density mode | compact, comfortable, spacious | User preference/setting |
-| Touch optimization | optimized, standard | `pointer: coarse` media query |
-| Content density | high, medium, low | Container context |
-| Scale factor | 1x, 1.25x, 1.5x, 2x | Device pixel ratio |
-
-#### Validation Findings
-
-**Missing Values in Current Enumerations**
-
-Density mode implementations vary significantly in granularity. Material Design uses a numeric scale (0, -1, -2, -3) where each decrement reduces component height by 4px. Current t-shirt sizing (compact/comfortable/spacious) lacks this precision.
-
-Touch optimization requires more granularity than binary values. WCAG 2.2 defines 24×24px minimum (AA) and 44×44px (AAA) targets, necessitating multiple optimization levels.
-
-Scale factor omits common OS-level scaling contexts (Windows 125%, 150%, 175%, 200%).
-
-**Naming Inconsistencies**
-
-No industry consensus exists for density terminology. SAP uses `cozy/compact`, Gmail uses `Compact/Cozy/Comfortable`, and AWS Cloudscape uses `comfortable/compact`.
-
-**Detection Gaps**
-
-Content density is frequently conflated with touch optimization despite being orthogonal concerns. Additionally, no CSS media query exists for user density preference (unlike `prefers-color-scheme`).
-
-#### Missing Dimensions
-
-| Dimension | Definition | Values | Rationale |
-|-----------|------------|--------|-----------|
-| **Font scaling context** | Text scaling independent of UI | `default`, `large`, `larger`, `largest` | Users may want larger text with normal-sized controls |
-| **Input device precision** | Primary input accuracy level | `fine` (mouse), `coarse` (touch), `pen`, `hybrid` | Different precision requires different hit areas |
-| **Interaction precision** | Motor control requirements | `standard`, `accessible` | Addresses tremors, motor disabilities beyond device capability |
-| **Scroll behavior density** | Content per scroll gesture | `standard`, `accelerated`, `paginated` | High-density views may warrant different scroll behavior |
-| **Density transition timing** | Animation between states | Duration tokens | How UI transforms when user changes density |
+| Dimension | Values | Volatility | Detection |
+|-----------|--------|------------|-----------|
+| **Density mode** | `compact`, `comfortable`, `spacious` | Stable | Declared |
+| **Density scale** | `0`, `-1`, `-2`, `-3` (4px decrements) | Stable | Declared |
+| **Touch optimization** | `standard`, `touch-optimized` | Semi-stable | Inferred: `pointer: coarse` |
+| **Input device precision** | `fine`, `coarse`, `pen`, `hybrid` | Semi-stable | Inferred: `pointer`, `any-pointer` |
+| **Content density** | `low`, `medium`, `high` | Inherited | Declared per container |
+| **Scale factor** | `1x`, `1.25x`, `1.5x`, `1.75x`, `2x` | Immutable | Inferred: `resolution` |
+| **Font scaling** | `default`, `large`, `larger`, `largest` | Stable | Inferred: Platform accessibility setting |
+| **Interaction precision** | `standard`, `accessible` | Stable | Declared |
+| **Minimum target size** | `24px` (AA), `44px` (AAA) | Stable | Declared based on conformance target |
 
 #### Cross-Category Dependencies
 
 ```
 Density ─────────┬─── Viewport: Larger viewports default to higher density;
-                 │              SAP Fiori auto-switches compact on desktop
+                 │              auto-switch compact on desktop
                  │
-                 ├─── Container: Container queries should inform density;
+                 ├─── Container: Container queries inform density;
                  │               sidebar card needs different density than
                  │               main content card
                  │
-                 ├─── Accessibility: Touch targets MUST maintain 44px minimum
+                 ├─── Accessibility: Touch targets MUST maintain minimum
                  │                   regardless of visual density reduction
                  │
                  └─── Interaction States: Compact density reduces hover/focus
-                                          indicator spacing—may conflict with
+                                          indicator spacing—must not violate
                                           WCAG 2.4.13 Focus Appearance
 ```
 
-#### Edge Cases
+#### Conflict Resolution
 
-| Scenario | Conflict | Resolution |
-|----------|----------|------------|
-| Compact density with touch input | Visual density conflicts with touch targets | Maintain 48dp touch targets with tighter visual spacing; use `touch-action` areas larger than visual element |
-| Browser zoom 200% in compact mode | Density compounds with zoom, breaking layouts | Detect zoom level, auto-switch to comfortable density above 150% zoom |
-| Form with mixed input types | Components have different density support | Establish minimum density per component type in token system |
-| Density switch mid-interaction | Focus indicator position may shift | Transition density only on blur or use CSS transitions |
+| Scenario | Rule | Rationale |
+|----------|------|-----------|
+| Compact + touch input | Maintain 48dp touch targets; allow tighter visual spacing | Accessibility minimum preserved |
+| 200% zoom + compact | Auto-switch to comfortable above 150% zoom | Prevent layout breakage |
+| Mixed component density support | Establish minimum density per component type | Consistent behavior |
+| Density change during focus | Transition only on blur, or animate smoothly | Prevent jarring shifts |
 
 ---
 
-### 3.3 Viewport and Responsive Contexts
+### 3.3 Viewport and Responsive
 
-Viewport contexts address device screen characteristics, orientation, display modes, and the emerging complexity of foldable devices.
+Viewport contexts address device screen characteristics, orientation, display modes, and foldable device states.
 
-#### Current Dimension Inventory
+#### Dimension Inventory
 
-| Dimension | Enumerated Values | Detection Mechanism |
-|-----------|-------------------|---------------------|
-| Breakpoint | xs, sm, md, lg, xl, xxl | `min-width`/`max-width` media queries |
-| Orientation | portrait, landscape | `orientation` media query |
-| Display type | browser, standalone, fullscreen, minimal-ui | `display-mode` media query |
-| Pixel density | 1x, 2x, 3x | `resolution` / `-webkit-device-pixel-ratio` |
-
-#### Validation Findings
-
-**Missing Values in Current Enumerations**
-
-The breakpoint dimension reflects an outdated device-specific approach. Modern implementations shift to content-based breakpoints, with container queries supplementing viewport queries.
-
-Display type is missing `window-controls-overlay` for PWA titlebar customization.
-
-Pixel density lacks the `infinite` value specified in CSS for vector displays.
-
-**Detection Gaps**
-
-- Foldable device viewport segments require `horizontal-viewport-segments` and `vertical-viewport-segments` media features (Chrome only)
-- Safe area insets (`env(safe-area-inset-*)`) exist but are rarely tokenized
-- Virtual keyboard presence detectable via `env(keyboard-inset-*)` but lacks design system support
-
-#### Missing Dimensions
-
-| Dimension | Definition | Values | Browser Support |
-|-----------|------------|--------|-----------------|
-| **Safe area insets** | Device notch/Dynamic Island clearance | `env(safe-area-inset-top/right/bottom/left)` | ✅ All modern browsers |
-| **Display cutout type** | Hardware cutout awareness | `none`, `notch`, `dynamic-island`, `punch-hole`, `corner` | Platform-specific APIs |
-| **Viewport segment count** | Foldable screen segments | Integer (1, 2, 3) | ⚠️ Chrome (foldables) |
-| **Fold posture** | Foldable device physical state | `flat`, `half-opened`, `folded`, `tabletop`, `book` | ⚠️ Screen Fold API |
-| **Fold occlusion** | Fold area content obstruction | `none`, `partial`, `full` | Platform heuristic |
-| **Virtual keyboard state** | On-screen keyboard visibility | `visible`, `hidden`, `transitioning` | `env(keyboard-inset-height)` |
-| **Titlebar area** | PWA window controls overlay | `env(titlebar-area-x/y/width/height)` | ⚠️ Chrome/Edge (PWA) |
+| Dimension | Values | Volatility | Detection |
+|-----------|--------|------------|-----------|
+| **Breakpoint** | `xs`, `sm`, `md`, `lg`, `xl`, `xxl` (or continuous) | Semi-stable | Inferred: viewport width |
+| **Orientation** | `portrait`, `landscape` | Semi-stable | Inferred: `orientation` |
+| **Display mode** | `browser`, `standalone`, `fullscreen`, `minimal-ui`, `window-controls-overlay` | Stable | Inferred: `display-mode` |
+| **Pixel density** | `1x`, `2x`, `3x`, `infinite` | Immutable | Inferred: `resolution` |
+| **Safe area insets** | Continuous (top/right/bottom/left) | Semi-stable | Inferred: `env(safe-area-inset-*)` |
+| **Display cutout type** | `none`, `notch`, `dynamic-island`, `punch-hole`, `corner` | Immutable | Inferred: Platform API |
+| **Viewport segment count** | Integer (1, 2, 3) | Semi-stable | Inferred: `horizontal-viewport-segments` |
+| **Fold posture** | `flat`, `half-opened`, `folded`, `tabletop`, `book` | Semi-stable | Inferred: Screen Fold API |
+| **Fold occlusion** | `none`, `partial`, `full` | Semi-stable | Computed from fold posture |
+| **Virtual keyboard state** | `hidden`, `visible`, `transitioning` | Volatile | Inferred: `env(keyboard-inset-*)` |
+| **Titlebar area** | Continuous (x/y/width/height) | Stable | Inferred: `env(titlebar-area-*)` |
 
 #### Cross-Category Dependencies
 
 ```
 Viewport ────────┬─── Density: Viewport size informs default density;
-                 │            mobile should default to touch-optimized
+                 │            mobile defaults to touch-optimized
                  │
                  ├─── Container: Container queries handle component-level
                  │               adaptation; viewport queries handle page layout
@@ -312,53 +247,32 @@ Viewport ────────┬─── Density: Viewport size informs def
                                  (single-column vs split-view)
 ```
 
-#### Edge Cases
+#### Conflict Resolution
 
-| Scenario | Conflict | Resolution |
-|----------|----------|------------|
-| Samsung Z Fold cover to main screen | Extreme aspect ratio change mid-session | Use `horizontal-viewport-segments: 2` to detect unfolded state; preserve UI state across transition |
-| iOS Dynamic Island inset changes | Safe area insets are dynamic | Use `safe-area-inset-*` in calculations rather than hardcoded values |
-| Split-screen PWA with reduced viewport | Viewport queries fail, app renders desktop mode in small space | Container queries for component adaptation; viewport queries only for chrome/navigation |
-| Foldable in "flex mode" (half-opened) | Content/controls should split across fold | Define `--layout-mode: split-vertical` token triggered by `fold-posture: half-opened` |
+| Scenario | Rule | Rationale |
+|----------|------|-----------|
+| Cover to main screen transition (foldable) | Use `horizontal-viewport-segments: 2` to detect; preserve UI state | Continuity across form factor change |
+| Dynamic safe area changes | Use `env()` in calculations, not hardcoded values | Dynamic hardware adaptation |
+| Split-screen with reduced viewport | Container queries for components; viewport queries for chrome only | Component autonomy |
+| Half-opened fold posture | Define `--layout-mode: split-vertical` | Explicit mode switching |
 
 ---
 
-### 3.4 Container Sizing Contexts
+### 3.4 Container Sizing
 
-Container contexts enable component-level responsive adaptation independent of viewport dimensions, representing a fundamental shift in responsive design methodology.
+Container contexts enable component-level responsive adaptation independent of viewport dimensions.
 
-#### Current Dimension Inventory
+#### Dimension Inventory
 
-| Dimension | Enumerated Values | Detection Mechanism |
-|-----------|-------------------|---------------------|
-| Container width | Continuous (any length value) | `@container (width > Xpx)` |
-| Container context | Named containers | `container-name` + `@container name` |
-| Parent constraints | Implicit (inherited sizing) | Not directly queryable |
-
-#### Validation Findings
-
-**Missing Values in Current Enumerations**
-
-Container width should include semantic breakpoint tokens (`--breakpoint-container-sm: 320px`).
-
-Container context via named containers functions correctly, but style queries (`@container style(--prop: value)`) only support custom properties currently.
-
-**Detection Gaps**
-
-- Block-size (height) container queries require `container-type: size` with performance implications
-- Content overflow state is not queryable in CSS
-- Aspect ratio is queryable but not commonly tokenized
-
-#### Missing Dimensions
-
-| Dimension | Definition | Values | Current State |
-|-----------|------------|--------|---------------|
-| **Container height context** | Block-size container queries | Continuous length | `container-type: size` exists but uncommon |
-| **Container aspect ratio** | Ratio-based queries | `16/9`, `4/3`, `1/1`, `9/16` | Queryable but rarely used |
-| **Content overflow state** | Contents exceed container | `within-bounds`, `overflowing-x`, `overflowing-y` | Not queryable in CSS; requires JS |
-| **Available space percentage** | Container size relative to viewport | 0-100% | Calculation required |
-| **Scroll-state queries** | Container scroll position | `scrolled-top`, `scrolled-bottom`, `scrolling` | New in spec: `@container scroll-state(...)` |
-| **Container style properties** | Query computed styles | Any CSS property | Spec allows but not implemented |
+| Dimension | Values | Volatility | Detection |
+|-----------|--------|------------|-----------|
+| **Container width** | Continuous (any length) | Inherited | Inferred: `@container (width)` |
+| **Container height** | Continuous (any length) | Inherited | Inferred: `@container (height)` |
+| **Container name** | String identifier | Declared | Declared: `container-name` |
+| **Container aspect ratio** | `16/9`, `4/3`, `1/1`, `9/16`, etc. | Inherited | Computed |
+| **Content overflow** | `within-bounds`, `overflowing-x`, `overflowing-y` | Volatile | Requires JavaScript |
+| **Available space** | Percentage of viewport | Inherited | Computed |
+| **Scroll state** | `scrolled-top`, `scrolled-bottom`, `scrolling`, `at-snappoint` | Volatile | Inferred: `@container scroll-state()` |
 
 #### Cross-Category Dependencies
 
@@ -366,7 +280,7 @@ Container context via named containers functions correctly, but style queries (`
 Container ───────┬─── Viewport: Media queries for global layout,
                  │              container queries for component layout
                  │
-                 ├─── Density: Narrow containers should trigger compact mode
+                 ├─── Density: Narrow containers trigger compact mode
                  │             @container (width < 20rem) { --density: compact }
                  │
                  ├─── Structure: Nested containers create formatting contexts
@@ -376,61 +290,36 @@ Container ───────┬─── Viewport: Media queries for global l
                                  creation and z-index resolution
 ```
 
-#### Edge Cases
+#### Conflict Resolution
 
-| Scenario | Conflict | Resolution |
-|----------|----------|------------|
-| Height query needed but performance-constrained | `container-type: size` has layout cost | Prefer `inline-size` only; use JavaScript for height-dependent logic |
-| Nested container queries with conflicting styles | Child container overrides parent unexpectedly | Establish token inheritance rules; use `@layer` for cascade control |
-| Container query + media query coordination | Both can style same element | Define cascade order: media query establishes foundation, container query adapts |
-| Circular size dependency | Container query depends on content that depends on container | CSS prevents this via containment; design tokens must account for this |
+| Scenario | Rule | Rationale |
+|----------|------|-----------|
+| Height query + performance concern | Prefer `inline-size`; use JavaScript for height-dependent logic | Performance tradeoff |
+| Nested container conflicts | Token inheritance rules + `@layer` for cascade control | Predictable cascade |
+| Container + media query on same element | Media query establishes foundation; container query adapts | Clear precedence |
+| Circular size dependency | CSS containment prevents; tokens must not create cycles | Architecture constraint |
 
 ---
 
 ### 3.5 Interaction States (Mutually Exclusive)
 
-Interaction states represent the current input-driven state of an interactive element. This category addresses states that are mutually exclusive within a single state machine.
+Interaction states represent the current input-driven state of an interactive element within a single state machine.
 
-#### Current Dimension Inventory
+#### Dimension Inventory
 
-| State | CSS Pseudo-class | ARIA Mapping |
-|-------|------------------|--------------|
-| rest | (none—default) | (implicit) |
-| hover | `:hover` | None (presentational) |
-| focus | `:focus`, `:focus-visible` | Managed by browser |
-| active | `:active` | `aria-pressed` (limited) |
-| disabled | `:disabled`, `[aria-disabled]` | `aria-disabled="true"` |
-| dragged | (none) | `aria-grabbed` (deprecated) |
+| State | CSS Detection | ARIA Mapping | Volatility |
+|-------|---------------|--------------|------------|
+| **rest** | (default) | (implicit) | Volatile |
+| **hover** | `:hover` | None | Volatile |
+| **active** | `:active` | (limited) | Volatile |
+| **pressed** | JavaScript `pointerdown` | None | Volatile |
+| **dragged** | JavaScript | `aria-grabbed` (deprecated) | Volatile |
+| **disabled** | `:disabled`, `[aria-disabled]` | `aria-disabled="true"` | Semi-stable |
+| **pending** | JavaScript state | `aria-busy="true"` | Volatile |
+| **skeleton** | JavaScript state | `aria-hidden="true"` | Volatile |
+| **touch-hold** | JavaScript (`touchstart` + timer) | None | Volatile |
 
-#### Validation Findings
-
-**Critical Classification Error**
-
-Per industry analysis from Dynatrace and Material Design, **focus is NOT mutually exclusive**. An element can be simultaneously focused AND hovered. The correct classification is:
-
-- **Mutually exclusive**: rest, hover, active, dragged, disabled
-- **Additive overlay**: focus (applies on top of exclusive states)
-
-**Naming Inconsistencies**
-
-Material Design inconsistently uses `hover` vs `hovered`, `focus` vs `focused`. We recommend standardizing to present tense for pseudo-class alignment (`hover`, `focus`, `active`) or past tense for state description (`hovered`, `focused`, `activated`).
-
-**ARIA Mapping Gaps**
-
-- `aria-grabbed` deprecated in ARIA 1.1 with no replacement
-- No ARIA equivalent exists for hover (accessibility concern—hover-dependent functionality must have alternatives)
-- Active/pressed distinction unclear: CSS `:active` = being pressed; `aria-pressed` = toggle state
-
-#### Missing States
-
-| State | Definition | Detection | Use Case |
-|-------|------------|-----------|----------|
-| **focus-visible** | Focus via keyboard navigation | `:focus-visible` pseudo-class | Different focus rings for keyboard vs mouse users |
-| **focus-within** | Ancestor contains focused element | `:focus-within` pseudo-class | Styling form groups when child is focused |
-| **pressed** | Momentary press before release | JavaScript `pointerdown` | Button depression feedback |
-| **pending** | Action initiated, awaiting response | JavaScript state | Async operation in progress |
-| **skeleton** | Content placeholder during load | JavaScript state | Layout preservation while loading |
-| **touch-hold** | Long-press on touch device | JavaScript `touchstart` + timer | Context menu trigger on mobile |
+**Note**: Focus is NOT mutually exclusive—it is an additive overlay (see Section 3.6).
 
 #### Cross-Category Dependencies
 
@@ -442,63 +331,51 @@ Interaction States ──┬─── Accessibility: Focus MUST take precedence 
                      ├─── Semantic: Error state + disabled creates
                      │              "disabled due to error" compound state
                      │
-                     └─── Elevation: Active/pressed states often include
-                                     elevation change (Material: pressed = -1dp)
+                     └─── Elevation: Active/pressed states include
+                                     elevation change (pressed = -1dp)
 ```
 
-#### Edge Cases
+#### Conflict Resolution
 
-| Scenario | Conflict | Resolution |
-|----------|----------|------------|
-| Element is both hovered AND focused | Which state visual takes precedence? | Focus takes semantic precedence; hover may show briefly then revert to focus |
-| Disabled element receives hover | Should disabled show hover feedback? | No—disabled elements should not respond to pointer; cursor remains `not-allowed` |
-| Focus on element that triggers loading | Focus + pending states concurrent | Maintain focus indicator during pending; add loading indicator alongside |
-| Touch device has no hover state | Hover-dependent interactions inaccessible | Provide touch-hold as hover alternative; never require hover for essential functionality |
+| Scenario | Rule | Rationale |
+|----------|------|-----------|
+| Hover + another exclusive state | Exclusive states take precedence over hover | State machine integrity |
+| Disabled + hover | No visual response; `cursor: not-allowed` | Disabled means non-interactive |
+| Pending + continued focus | Maintain focus indicator; add loading indicator alongside | Accessibility continuity |
+| Touch device (no hover) | Provide touch-hold as hover alternative; never require hover | Universal access |
 
 ---
 
-### 3.6 Additive and Combinable States
+### 3.6 Combinable States
 
-Unlike mutually exclusive interaction states, additive states can combine freely to represent complex component conditions.
+Combinable states can be applied simultaneously to represent complex component conditions.
 
-#### Current Dimension Inventory
+#### Dimension Inventory
 
-| State | ARIA Attribute | Applicable Elements |
-|-------|----------------|---------------------|
-| selected | `aria-selected` | listbox items, tabs, grid cells |
-| checked | `aria-checked` | checkboxes, switches, radio buttons |
-| expanded | `aria-expanded` | accordions, menus, trees |
-| loading | `aria-busy` | regions being updated |
-| error | `aria-invalid` | form fields |
-| warning | (none) | validation messages |
-| success | (none) | validation messages |
-| read-only | `aria-readonly` | editable fields |
-| visited | (none) | links only (CSS `:visited`) |
+| State | ARIA Mapping | Applicable Elements | Volatility |
+|-------|--------------|---------------------|------------|
+| **focus** | Managed by browser | Interactive elements | Volatile |
+| **focus-visible** | `:focus-visible` | Interactive elements | Volatile |
+| **focus-within** | `:focus-within` | Container elements | Volatile |
+| **selected** | `aria-selected` | Listbox items, tabs, grid cells | Semi-stable |
+| **checked** | `aria-checked` | Checkboxes, switches, radios | Semi-stable |
+| **indeterminate** | `aria-checked="mixed"` | Checkboxes with partial children | Semi-stable |
+| **expanded** | `aria-expanded` | Accordions, menus, trees | Semi-stable |
+| **current** | `aria-current` | Navigation items | Semi-stable |
+| **loading** | `aria-busy` | Regions being updated | Volatile |
+| **invalid** | `aria-invalid` | Form fields (validation) | Volatile |
+| **error** | `aria-errormessage` | Form fields (system error) | Volatile |
+| **warning** | `aria-describedby` | Form fields | Volatile |
+| **success** | Live region | Form fields | Volatile |
+| **required** | `aria-required` | Form fields | Stable |
+| **read-only** | `aria-readonly` | Editable fields | Semi-stable |
+| **modified** | (none) | Editable fields | Volatile |
+| **autofilled** | `:autofill` | Input fields | Volatile |
+| **visited** | `:visited` | Links | Stable |
 
-#### Validation Findings
-
-**Semantic Confusion Requiring Correction**
-
-- **selected vs checked**: These are NOT interchangeable. `aria-selected` applies to selection within containers (tabs, list items). `aria-checked` indicates toggle state (checkboxes, switches). `aria-pressed` applies to button toggles only.
-- **error vs invalid**: Different concepts. `invalid` indicates value doesn't match expected format (validation). `error` indicates system/submission failure. CSS `:invalid` handles client-side validation only.
-
-**Missing ARIA Mappings**
-
-- Warning state has no ARIA equivalent—use `aria-describedby` pointing to warning message
-- Success state has no ARIA equivalent—announce via live region
-- Visited is browser-managed with privacy restrictions on styling
-
-#### Missing States
-
-| State | Definition | ARIA Mapping | Use Case |
-|-------|------------|--------------|----------|
-| **indeterminate** | Neither fully checked nor unchecked | `aria-checked="mixed"` | Parent checkbox with partially selected children |
-| **current** | Item represents current location/page | `aria-current="page\|step\|location\|date\|time"` | Navigation active state |
-| **busy** | Region actively updating | `aria-busy="true"` | Live region update in progress |
-| **required** | Field must have value | `aria-required="true"` | Required field indicator |
-| **modified/dirty** | User changed value from initial | (none) | Unsaved changes indicator |
-| **autofilled** | Browser auto-populated value | CSS `:autofill` | Different styling for autofilled inputs |
-| **partial** | Partial selection in hierarchy | `aria-checked="mixed"` | Tree selection states |
+**Semantic Distinctions**:
+- `selected` vs `checked`: `selected` applies to selection in containers; `checked` applies to toggle state
+- `invalid` vs `error`: `invalid` is validation failure; `error` is system/submission failure
 
 #### Cross-Category Dependencies
 
@@ -513,65 +390,44 @@ Combinable States ──┬─── Interaction: selected + disabled = valid co
                                      and nesting context propagation
 ```
 
-#### Edge Cases
+#### Conflict Resolution
 
-| Scenario | Conflict | Resolution |
-|----------|----------|------------|
-| Checkbox is checked AND indeterminate | Conflicting states | Indeterminate takes visual precedence; `checked` reflects programmatic state |
-| Form field has error AND warning | Which validation state displays? | Error takes precedence; show warning only after error resolved |
-| Item is selected AND current | Redundant visual indication | `current` used for navigation, `selected` for data selection—both may apply with distinct styling |
-| Loading element receives interaction | User clicks while loading | Add `aria-disabled` during loading to prevent double-submission |
+| Scenario | Rule | Rationale |
+|----------|------|-----------|
+| Checked + indeterminate | Indeterminate takes visual precedence; `checked` reflects programmatic state | Visual clarity |
+| Error + warning | Error takes precedence; show warning after error resolved | Severity ordering |
+| Selected + current | Both may apply with distinct styling | Different purposes |
+| Loading + interaction | Add `aria-disabled` during loading | Prevent double-submission |
 
 ---
 
-### 3.7 Accessibility Contexts
+### 3.7 Accessibility
 
-Accessibility contexts represent user preferences and system settings that address diverse user needs including visual, motor, and cognitive accessibility requirements.
+Accessibility contexts represent user preferences and system settings addressing visual, motor, and cognitive needs.
 
-#### Current Dimension Inventory
+#### Dimension Inventory
 
-| Dimension | Enumerated Values | Detection Mechanism |
-|-----------|-------------------|---------------------|
-| Reduced motion | reduce, no-preference | `prefers-reduced-motion` |
-| Contrast preference | more, less, no-preference, custom | `prefers-contrast` |
-| Reduced transparency | reduce, no-preference | `prefers-reduced-transparency` |
-| Forced colors | active, none | `forced-colors` |
-| Color vision deficiency | (not captured) | None |
+| Dimension | Values | Volatility | Detection |
+|-----------|--------|------------|-----------|
+| **Reduced motion** | `no-preference`, `reduce` | Stable | Inferred: `prefers-reduced-motion` |
+| **Reduced transparency** | `no-preference`, `reduce` | Stable | Inferred: `prefers-reduced-transparency` |
+| **Reduced data** | `no-preference`, `reduce` | Stable | Inferred: `prefers-reduced-data` |
+| **CVD-safe mode** | `none`, `protanopia-safe`, `deuteranopia-safe`, `tritanopia-safe`, `universal` | Stable | Declared |
+| **Cognitive load** | `default`, `reduced` | Stable | Declared |
+| **Focus visibility** | `default`, `enhanced` | Stable | Declared |
+| **Pointer target size** | `default`, `large` (44px minimum) | Stable | Declared |
+| **Screen magnification** | Boolean | Stable | Inferred: Platform API |
 
-#### Validation Findings
-
-**Browser Support Gaps**
-
-- `prefers-reduced-transparency`: Safari 16.4+ only as of January 2026
-- `prefers-reduced-data`: Limited support, at-risk in specification
-- Color vision deficiency: **No CSS media query exists**—affects approximately 8% of males
-
-**Platform Coupling Issue**
-
-On Windows, `prefers-contrast: more` and `forced-colors: active` are intrinsically coupled. Enabling high contrast themes triggers both. Developers cannot distinguish between users wanting enhanced contrast versus forced color replacement.
-
-**Implementation Best Practice**
-
-Default to reduced motion and enhance for `no-preference` (accessibility-first approach), rather than the reverse.
-
-#### Missing Dimensions
-
-| Dimension | Definition | Values | Rationale |
-|-----------|------------|--------|-----------|
-| **CVD-safe mode** | Color vision deficiency-optimized palette | `none`, `protanopia-safe`, `deuteranopia-safe`, `tritanopia-safe`, `universal` | 8% of males affected; GitHub Primer implements tritanopia/colorblind themes |
-| **Cognitive load preference** | Simplified UI mode | `default`, `reduced` | No CSS query; reduces information density, simplifies interactions |
-| **Focus visibility preference** | Enhanced focus indicators | `default`, `enhanced` | Some users need larger, higher-contrast focus rings |
-| **Large pointer mode** | Increased click/tap targets | `default`, `large` | WCAG 2.5.8 requires 24px (AA), 44px (AAA) |
-| **Screen magnification active** | Screen magnifier in use | Boolean | Affects layout decisions; should reduce animations |
+**Implementation Principle**: Default to reduced motion and enhance for `no-preference` (accessibility-first approach).
 
 #### Cross-Category Dependencies
 
 ```
 Accessibility ───────┬─── Appearance: prefers-contrast may override theme;
-                     │                dark mode often preferred by users
+                     │                dark scheme often preferred by users
                      │                with light sensitivity
                      │
-                     ├─── Elevation: Reduced motion should disable elevation
+                     ├─── Elevation: Reduced motion disables elevation
                      │               transitions; forced-colors removes box-shadow
                      │
                      ├─── Density: Large pointer mode overrides density,
@@ -581,51 +437,35 @@ Accessibility ───────┬─── Appearance: prefers-contrast may
                                     differentiators (icons, patterns) per WCAG 1.4.1
 ```
 
-#### Edge Cases
+#### Conflict Resolution
 
-| Scenario | Conflict | Resolution |
-|----------|----------|------------|
-| `prefers-contrast: more` + `forced-colors: active` | Can't distinguish preference type | Test both queries together; provide system color fallbacks that also enhance contrast |
-| Reduced motion user expects loading feedback | Removing all animation removes status feedback | Replace motion-based loaders with static progress indicators or state text |
-| Red-green colorblind user with error/success states | Cannot distinguish error from success | Mandatory secondary indicators: icons, patterns, text labels alongside color |
-| High contrast mode on branded UI | Brand colors replaced with system colors | Map brand semantics to system color keywords; accept loss of brand expression |
+| Scenario | Rule | Rationale |
+|----------|------|-----------|
+| `prefers-contrast: more` + `forced-colors: active` | Handle both; provide system color fallbacks with enhanced contrast | Platform coupling on Windows |
+| Reduced motion + loading feedback needed | Replace motion-based loaders with static indicators or state text | Accessibility without sacrificing information |
+| CVD user + error/success states | Mandatory secondary indicators: icons, patterns, text | Non-color differentiation |
+| High contrast + branded UI | Map brand semantics to system color keywords; accept brand expression loss | Accessibility priority |
 
 ---
 
-### 3.8 Locale and Internationalization Contexts
+### 3.8 Locale and Internationalization
 
-Locale contexts address the linguistic, cultural, and typographic requirements of global audiences, extending beyond simple text direction to encompass calendar systems, pluralization rules, and script-specific typography.
+Locale contexts address linguistic, cultural, and typographic requirements for global audiences.
 
-#### Current Dimension Inventory
+#### Dimension Inventory
 
-| Dimension | Enumerated Values | Detection Mechanism |
-|-----------|-------------------|---------------------|
-| Text direction | ltr, rtl, auto | `dir` attribute, CSS `direction` |
-| Writing mode | horizontal-tb, vertical-rl, vertical-lr | CSS `writing-mode` |
-| Language | BCP 47 tags (en-US, ar-EG, zh-Hans) | `lang` attribute |
-| Number format | (implementation-specific) | `Intl.NumberFormat` locale |
-
-#### Validation Findings
-
-**Missing Values**
-
-- Writing mode: `sideways-rl` and `sideways-lr` exist but are Firefox-only
-- Language: Should include script subtags for font selection (`zh-Hans` vs `zh-Hant`)
-
-**Token Architecture Gap**
-
-Figma Variables don't support typography token types matching W3C DTCG spec—no percentage-based line-heights. Figma's default auto line-height (1.2×) falls below WCAG minimum (1.5×).
-
-#### Missing Dimensions
-
-| Dimension | Definition | Values | Impact |
-|-----------|------------|--------|--------|
-| **Script type** | Writing system classification | `latin`, `cjk`, `arabic`, `cyrillic`, `devanagari`, `thai` | Font stacks, kerning, glyph complexity |
-| **Text expansion factor** | UI sizing multiplier for translation | German: 1.2-1.35, Finnish: 1.25-1.40, Chinese: 0.7-0.9 | Critical for button widths, navigation labels |
-| **Quote style** | Quotation mark conventions | US: `"text"`, German: `„text"`, French: `«text»` | Typography tokens per locale |
-| **Calendar system** | Regional calendar | `gregorian`, `hijri`, `buddhist`, `hebrew`, `japanese` | Date picker components |
-| **Pluralization rules** | CLDR plural categories | English: 2 forms, Arabic: 6 forms, Russian: 3 forms | Dynamic content string tokens |
-| **Line height locale** | Language-specific line spacing | CJK: 1.5-1.8×, Arabic: extra for diacritics | Typography tokens by locale |
+| Dimension | Values | Volatility | Detection |
+|-----------|--------|------------|-----------|
+| **Text direction** | `ltr`, `rtl`, `auto` | Stable | Declared: `dir` attribute |
+| **Writing mode** | `horizontal-tb`, `vertical-rl`, `vertical-lr`, `sideways-rl`, `sideways-lr` | Stable | Declared: `writing-mode` |
+| **Language** | BCP 47 tags (e.g., `en-US`, `ar-EG`, `zh-Hans`) | Stable | Declared: `lang` attribute |
+| **Script type** | `latin`, `cjk`, `arabic`, `cyrillic`, `devanagari`, `thai` | Stable | Computed from language |
+| **Text expansion factor** | Numeric (German: 1.2-1.35, Chinese: 0.7-0.9) | Stable | Computed from language |
+| **Quote style** | `"text"`, `„text"`, `«text»`, etc. | Stable | Computed from language |
+| **Calendar system** | `gregorian`, `hijri`, `buddhist`, `hebrew`, `japanese` | Stable | Declared or computed from locale |
+| **Number format** | Locale-specific | Stable | Computed: `Intl.NumberFormat` |
+| **Pluralization rules** | CLDR categories (1-6 forms) | Stable | Computed from language |
+| **Line height adjustment** | CJK: 1.5-1.8×, Arabic: +diacritics | Stable | Computed from script type |
 
 #### Cross-Category Dependencies
 
@@ -639,56 +479,39 @@ Locale ──────────────┬─── Platform: iOS UISe
                      ├─── Viewport: Text expansion affects responsive breakpoints
                      │              (German labels may trigger earlier breakpoint)
                      │
-                     └─── Density: Long German compound words may require
+                     └─── Density: Long compound words may require
                                    different truncation tokens
 ```
 
-#### Edge Cases
+#### Conflict Resolution
 
-| Scenario | Conflict | Resolution |
-|----------|----------|------------|
-| RTL text contains embedded LTR URLs | Unicode BiDi algorithm fails on structured expressions | Use Unicode control characters (LRM, RLM) or `\u200E` isolates |
-| Icon contains directional arrow | Some icons should mirror in RTL, some should not | Document per-icon mirroring behavior; checkmarks and clocks don't mirror |
-| Form controls in vertical writing mode | Chrome 119+ supports but conflicts with `direction: rtl` | Test writing-mode + direction combinations explicitly |
-| Font fallback in RTL locale | Noto fallback fonts may have inconsistent metrics | Specify complete font stack with RTL-aware metrics for fallbacks |
+| Scenario | Rule | Rationale |
+|----------|------|-----------|
+| RTL text + embedded LTR URLs | Use Unicode control characters (LRM, RLM) or isolates | BiDi algorithm handling |
+| Directional icons in RTL | Document per-icon mirroring; checkmarks/clocks don't mirror | Semantic preservation |
+| Vertical writing + RTL | Test combinations explicitly | Edge case validation |
+| Font fallback in RTL | Specify complete stack with RTL-aware metrics | Metric consistency |
 
 ---
 
-### 3.9 Platform and Runtime Contexts
+### 3.9 Platform and Runtime
 
-Platform contexts address the deployment target, rendering environment, and runtime capabilities that affect token format, feature availability, and implementation patterns.
+Platform contexts address deployment target, rendering environment, and runtime capabilities.
 
-#### Current Dimension Inventory
+#### Dimension Inventory
 
-| Dimension | Enumerated Values | Detection Mechanism |
-|-----------|-------------------|---------------------|
-| Platform | web, ios, android, flutter | Build-time configuration |
-| Framework | react, angular, vue, web-components | Build-time configuration |
-| Browser engine | webkit, gecko, blink | User-agent/feature detection |
-| Rendering context | SSR, CSR | Runtime detection |
-
-#### Validation Findings
-
-**Missing Values**
-
-- Platform: Missing `electron`, `tauri`, `react-native`, `macos`, `windows`, `linux`
-- Rendering context: Missing `SSG` (static site generation), `ISR` (incremental static regeneration), `hydrating` (transition state)
-
-**Token Format Gaps**
-
-Style Dictionary transforms to platform-specific formats, but color format requirements differ: RGB for CSS, RGBA for iOS JSON, 8-digit AARRGGBB hex for Android XML. No unified token format handles this automatically.
-
-#### Missing Dimensions
-
-| Dimension | Definition | Values | Rationale |
-|-----------|------------|--------|-----------|
-| **Device capability** | Hardware feature availability | `haptics`, `camera`, `gps`, `biometrics`, `nfc` | Interaction feedback tokens (haptic intensity) |
-| **Performance tier** | Device capability classification | `high`, `medium`, `low` | Animation complexity, shadow quality, blur fallbacks |
-| **Network quality** | Connection speed tier | `offline`, `slow-2g`, `2g`, `3g`, `4g+` | Image quality tokens, skeleton duration |
-| **JavaScript state** | JS availability | `enabled`, `disabled`, `loading` | Graceful degradation tokens |
-| **Print context** | Print vs screen media | `screen`, `print` | CMYK-safe colors, hide decorative elements |
-| **Embedded context** | Runtime embedding | `standalone`, `iframe`, `webview` | Security-constrained tokens, size limitations |
-| **Hydration state** | SSR→CSR transition | `static`, `hydrating`, `interactive` | Loading state tokens, placeholder tokens |
+| Dimension | Values | Volatility | Detection |
+|-----------|--------|------------|-----------|
+| **Platform** | `web`, `ios`, `android`, `macos`, `windows`, `linux`, `electron`, `tauri`, `react-native` | Immutable | Build-time |
+| **Framework** | `react`, `angular`, `vue`, `svelte`, `web-components` | Immutable | Build-time |
+| **Browser engine** | `webkit`, `gecko`, `blink` | Immutable | Inferred: Feature detection |
+| **Rendering context** | `SSR`, `SSG`, `ISR`, `CSR`, `hydrating` | Semi-stable | Runtime detection |
+| **JavaScript state** | `enabled`, `disabled`, `loading` | Semi-stable | Runtime detection |
+| **Device capabilities** | `haptics`, `camera`, `gps`, `biometrics`, `nfc` | Immutable | Inferred: Platform API |
+| **Performance tier** | `high`, `medium`, `low` | Immutable | Computed from device signals |
+| **Network quality** | `offline`, `slow-2g`, `2g`, `3g`, `4g+` | Volatile | Inferred: Network Information API |
+| **Print context** | `screen`, `print` | Semi-stable | Inferred: `@media print` |
+| **Embedded context** | `standalone`, `iframe`, `webview` | Immutable | Runtime detection |
 
 #### Cross-Category Dependencies
 
@@ -707,55 +530,38 @@ Platform ────────────┬─── Locale: React Native l
                                      composition patterns
 ```
 
-#### Edge Cases
+#### Conflict Resolution
 
-| Scenario | Conflict | Resolution |
-|----------|----------|------------|
-| SSR renders dark theme, client hydrates with light preference | Hydration mismatch flash of wrong theme | Inject `prefers-color-scheme` check in `<head>` before render; use cookie for server-side preference |
-| React Native token uses CSS `inherit` | `inherit` not supported in React Native StyleSheet | Transform inherited values to explicit values during token build |
-| Low-performance device runs animation-heavy UI | Janky animations worse than no animations | Detect performance tier; reduce animation complexity or duration |
-| Print stylesheet from JavaScript-dependent component | Interactive elements meaningless in print | `@media print` tokens that expand collapsed content, show all tabs |
+| Scenario | Rule | Rationale |
+|----------|------|-----------|
+| SSR dark + client light preference | Inject `prefers-color-scheme` check in `<head>`; use cookie for server preference | Prevent flash |
+| Token uses CSS `inherit` on React Native | Transform inherited values to explicit during build | Platform compatibility |
+| Low-performance device + heavy animations | Detect tier; reduce complexity or remove animations | Performance over fidelity |
+| Print from JavaScript-dependent component | `@media print` tokens expand collapsed content, show all tabs | Useful output |
 
 ---
 
-### 3.10 Elevation and Surface Contexts
+### 3.10 Elevation and Surface
 
-Elevation contexts define the visual hierarchy through layering, shadows, and surface treatments that communicate depth and interactivity.
+Elevation contexts define visual hierarchy through layering, shadows, and surface treatments.
 
-#### Current Dimension Inventory
+#### Dimension Inventory
 
-| Dimension | Enumerated Values | Detection Mechanism |
-|-----------|-------------------|---------------------|
-| Surface level | 0-5 (Material), layer-01/02/03 (Carbon) | Component hierarchy |
-| Shadow depth | none, sm, md, lg, xl | CSS `box-shadow` |
-| Z-index layer | 100-800 scale (Atlassian) | CSS `z-index` |
-
-#### Validation Findings
-
-**Missing Values**
-
-- Surface level: Material 3 introduced surface container variants (`surface-container-lowest`, `surface-container-low`, `surface-container`, `surface-container-high`, `surface-container-highest`)—more granular than 0-5
-- Z-index: Atlassian documents semantic layers (dropdown: 300, modal: 510, tooltip: 800) but most systems lack this documentation
-
-**Implementation Gap**
-
-IBM Carbon's contextual tokens auto-resolve based on nearest Layer component ancestor—an advanced approach that most systems lack. This DOM-aware token resolution is difficult to maintain but provides superior DX.
-
-#### Missing Dimensions
-
-| Dimension | Definition | Values | Rationale |
-|-----------|------------|--------|-----------|
-| **Backdrop blur level** | Glassmorphism blur tokens | `none`, `sm`, `md`, `lg` | Frosted glass effects |
-| **Overlay opacity** | Scrim/backdrop opacity | `0`, `32%`, `50%`, `100%` | Modal scrims, backdrop overlays |
-| **Stacking context relationship** | Parent-child z-index inheritance | Documented relationships | Critical for micro-frontends |
-| **Print elevation** | Elevation representation in print | `border`, `separator`, `none` | Shadows don't print; need alternative |
-| **Surface tint color** | Customizable tint for tonal elevation | Color token reference | Material 3 uses primary; may need override |
-| **Elevation transition timing** | Animation duration for changes | Duration + easing tokens | Ties to motion tokens with reduced-motion fallback |
+| Dimension | Values | Volatility | Detection |
+|-----------|--------|------------|-----------|
+| **Surface level** | `0`, `1`, `2`, `3`, `4`, `5` (or `container-lowest` through `container-highest`) | Inherited | Declared |
+| **Shadow depth** | `none`, `sm`, `md`, `lg`, `xl` | Inherited | Computed from surface level |
+| **Z-index layer** | Semantic scale (e.g., base: 0, dropdown: 300, modal: 500, tooltip: 800) | Inherited | Declared |
+| **Backdrop blur** | `none`, `sm`, `md`, `lg` | Inherited | Declared |
+| **Overlay opacity** | `0%`, `32%`, `50%`, `100%` | Inherited | Declared |
+| **Surface tint color** | Color token reference | Computed | Computed from theme primary + surface level |
+| **Print elevation** | `border`, `separator`, `none` | Computed | Computed from surface level for print |
+| **Elevation transition** | Duration + easing tokens | Computed | Declared with reduced-motion fallback |
 
 #### Cross-Category Dependencies
 
 ```
-Elevation ───────────┬─── Appearance: Dark mode reverses elevation direction
+Elevation ───────────┬─── Appearance: Dark scheme reverses elevation direction
                      │                (surfaces lighten upward); tint color
                      │                derived from theme primary
                      │
@@ -770,50 +576,35 @@ Elevation ───────────┬─── Appearance: Dark mode re
                                     Android elevation uses native ViewCompat
 ```
 
-#### Edge Cases
+#### Conflict Resolution
 
-| Scenario | Conflict | Resolution |
-|----------|----------|------------|
-| Forced colors mode removes all shadows | Elevation hierarchy lost | Use borders/outlines as fallback; `@media (forced-colors: active) { box-shadow: none; border: 2px solid ButtonText; }` |
-| Micro-frontend z-index collision | Independent teams create conflicting values | Establish global z-index token contract with reserved ranges per application |
-| Third-layer component in dark theme | Carbon's Gray 80 isn't a "full theme" for layer-03 | Document maximum supported nesting depth per theme |
-| Print stylesheet with elevated cards | Box-shadow doesn't print; tonal elevation invisible in B&W | `@media print` uses border-based elevation indicators |
+| Scenario | Rule | Rationale |
+|----------|------|-----------|
+| Forced colors removes shadows | Use borders as fallback: `@media (forced-colors: active) { border: 2px solid ButtonText }` | Alternative hierarchy |
+| Micro-frontend z-index collision | Global z-index contract with reserved ranges per application | Coordination mechanism |
+| Deep nesting exceeds theme support | Document maximum supported depth per theme | Known limitations |
+| Print with elevated cards | Use border-based indicators | Practical output |
 
 ---
 
-### 3.11 Semantic and Feedback Contexts
+### 3.11 Semantic and Feedback
 
-Semantic contexts convey meaning, status, and intent through consistent visual language, enabling users to understand system state and available actions.
+Semantic contexts convey meaning, status, and intent through consistent visual language.
 
-#### Current Dimension Inventory
+#### Dimension Inventory
 
-| Dimension | Enumerated Values | Detection Mechanism |
-|-----------|-------------------|---------------------|
-| Status | success, warning, error, info, neutral | Component/context |
-| Emphasis | primary, secondary, tertiary, bold, subtle | Component variant |
-| Intent | brand, informational, success, warning, destructive | Component variant |
+| Dimension | Values | Volatility | Detection |
+|-----------|--------|------------|-----------|
+| **Status** | `success`, `warning`, `error`, `info`, `neutral` | Volatile | Declared |
+| **Feedback** | `positive`, `negative`, `neutral` | Volatile | Declared |
+| **Emphasis** | `primary`, `secondary`, `tertiary`, `bold`, `subtle` | Stable | Declared |
+| **Intent** | `brand`, `informational`, `success`, `warning`, `destructive` | Stable | Declared |
+| **Urgency** | `low`, `medium`, `high`, `critical` | Volatile | Declared |
+| **Confidence** | `confirmed`, `likely`, `uncertain` | Volatile | Declared |
+| **Temporal status** | `new`, `updated`, `stale`, `archived` | Semi-stable | Declared |
+| **Provenance** | `human`, `ai-generated`, `ai-assisted` | Stable | Declared |
 
-#### Validation Findings
-
-**Naming Patterns Vary Significantly**
-
-- Status: Salesforce uses `success/warning/error/info`; Atlassian uses `success/warning/danger/discovery/information`
-- Emphasis: Bootstrap uses `primary/secondary/success/danger/warning/info`, mixing status with emphasis and creating confusion
-
-**Missing Distinction**
-
-GitLab distinguishes **status tokens** (current state—static) from **feedback tokens** (result of action—dynamic). Most systems conflate these distinct concepts.
-
-#### Missing Dimensions
-
-| Dimension | Definition | Values | Rationale |
-|-----------|------------|--------|-----------|
-| **Urgency** | Notification priority | `low`, `medium`, `high`, `critical` | Alert severity, interrupt level |
-| **Confidence** | Data reliability | `confirmed`, `likely`, `uncertain` | Data source indicators |
-| **Sentiment** | Emotional valence | `positive`, `neutral`, `negative` | User feedback display |
-| **Importance** | Visual hierarchy within semantic | `primary`, `secondary`, `tertiary` | Multiple warnings with different prominence |
-| **Temporal status** | Content freshness | `new`, `updated`, `stale`, `archived` | Content lifecycle indicators |
-| **Provenance** | Content origin | `human`, `ai-generated`, `ai-assisted` | Emerging pattern for AI transparency |
+**Semantic Distinction**: Status tokens represent current state (static); feedback tokens represent result of action (dynamic).
 
 #### Cross-Category Dependencies
 
@@ -824,62 +615,44 @@ Semantic ────────────┬─── Interaction: Error sta
                      ├─── Accessibility: Status MUST include non-color
                      │                   indicators (icons, patterns)
                      │
-                     ├─── Combinable States: Error/success are often
-                     │                       combinable states that trigger
-                     │                       semantic color tokens
+                     ├─── Combinable States: Error/success are combinable
+                     │                       states triggering semantic tokens
                      │
                      └─── Elevation: High-emphasis alerts may use elevated
                                      surfaces for attention
 ```
 
-#### Edge Cases
+#### Conflict Resolution
 
-| Scenario | Conflict | Resolution |
-|----------|----------|------------|
-| Yellow warning background with text | Yellow backgrounds often fail contrast | Use `warning.inverse` text token; ensure 4.5:1 contrast |
-| Multiple status indicators on same component | Error + warning + info simultaneously | Define precedence: error > warning > info; show highest priority |
-| Brand intent + danger intent overlap | Destructive action in brand color | Destructive always uses danger palette; brand defers to semantic |
-| Success state on disabled component | Conflicting signals (good + unavailable) | Disabled takes precedence visually; success can be announced via aria-describedby |
+| Scenario | Rule | Rationale |
+|----------|------|-----------|
+| Yellow warning background | Use `warning.inverse` text token; ensure 4.5:1 contrast | Accessibility compliance |
+| Multiple statuses on same component | Precedence: error > warning > info; show highest | Clear hierarchy |
+| Brand + destructive intent | Destructive always uses danger palette; brand defers | Safety clarity |
+| Success + disabled | Disabled takes visual precedence; success via `aria-describedby` | State clarity |
 
 ---
 
-### 3.12 Structural Contexts
+### 3.12 Structural
 
-Structural contexts address component composition, positional relationships, and architectural patterns that affect token scope and inheritance.
+Structural contexts address component composition, positional relationships, and architectural patterns.
 
-#### Current Dimension Inventory
+#### Dimension Inventory
 
-| Dimension | Enumerated Values | Detection Mechanism |
-|-----------|-------------------|---------------------|
-| Component type | (implementation-specific) | Component name/class |
-| Region | header, main, footer, nav, aside | Landmark roles |
-| Nesting level | depth-0, depth-1, depth-n | DOM traversal |
+| Dimension | Values | Volatility | Detection |
+|-----------|--------|------------|-----------|
+| **Component type** | Implementation-specific | Immutable | Declared |
+| **Region** | `header`, `main`, `footer`, `nav`, `aside`, `complementary` | Stable | Declared: Landmark roles |
+| **Nesting depth** | `depth-0` through `depth-n` | Inherited | Computed from DOM |
+| **List position** | `first`, `middle`, `last`, `only` | Inherited | Computed from siblings |
+| **Slot position** | `header`, `body`, `footer`, `trigger`, `content` | Stable | Declared |
+| **Tree depth** | Integer | Inherited | Computed from ancestors |
+| **Component lifecycle** | `mounting`, `mounted`, `unmounting` | Volatile | Runtime state |
+| **Layout position** | `start`, `center`, `end`, `stretch` | Inherited | Computed from parent |
+| **Complexity level** | `atom`, `molecule`, `organism` | Immutable | Declared |
+| **Instance count** | `first`, `nth`, `last` | Inherited | Computed from siblings |
 
-#### Validation Findings
-
-**Token Explosion Problem**
-
-Adobe Spectrum observed: "writing component-level tokens can easily get out of hand. If you're tokenizing every attribute of a component, for every permutation and state, the data becomes multidimensional and scales exponentially."
-
-**Naming Collision Issue**
-
-The same semantic name (`$dt-primary`) may not apply across all components. What's "primary" for a checkbox isn't necessarily "primary" for navigation (Frontside's "context dilemma").
-
-**Architecture Rule**
-
-SAP specifies "a component-specific token must never reference another component-specific token" to prevent hidden dependencies.
-
-#### Missing Dimensions
-
-| Dimension | Definition | Values | Rationale |
-|-----------|------------|--------|-----------|
-| **List position** | Item position in sequence | `first`, `middle`, `last`, `only` | Border-radius variations, separators |
-| **Slot position** | Position within compound component | `header`, `body`, `footer`, `trigger`, `content` | Modal/card slot styling |
-| **Tree depth** | Nesting level in hierarchy | `depth-0` through `depth-n` | Navigation indentation |
-| **Component lifecycle** | Mount state | `mounting`, `mounted`, `unmounting` | Enter/exit animation tokens |
-| **Grid/flex child position** | Position within layout | `start`, `center`, `end`, `stretch` | Auto-margin tokens |
-| **Component complexity** | Atomic design level | `atom`, `molecule`, `organism` | Token inheritance rules differ by level |
-| **Instance count** | nth occurrence | `first`, `nth`, `last` | Alternating row colors |
+**Architecture Rule**: A component-specific token must never reference another component-specific token.
 
 #### Cross-Category Dependencies
 
@@ -897,187 +670,337 @@ Structure ───────────┬─── Elevation: Nested modals
                                    to prevent excessive indentation
 ```
 
-#### Edge Cases
+#### Conflict Resolution
 
-| Scenario | Conflict | Resolution |
-|----------|----------|------------|
-| Figma slot swap loses auto-constraint | Swapped content doesn't inherit constraints | Design tool limitation; document expected behavior |
-| Compound component state synchronization | `<Form.Label>` needs error state from `<Form.Input>` | Use React context or CSS `:has()` for state propagation |
-| Same component in different regions | Card in sidebar vs card in main content | Use container queries + named containers rather than region tokens |
-| Cross-component token reference | Button references Card's border token | Prohibited; use shared semantic token both reference |
+| Scenario | Rule | Rationale |
+|----------|------|-----------|
+| Compound component state sync | Use framework context or CSS `:has()` for state propagation | Cross-component coordination |
+| Same component in different regions | Use container queries + named containers | Context-aware adaptation |
+| Cross-component token reference | Prohibited; use shared semantic token | Prevent hidden dependencies |
 
 ---
 
-## 4. Cross-Category Dependency Analysis
+## 4. Context Types
 
-This analysis identified 78 cross-category dependencies. These dependencies create the complexity that makes design token systems challenging to maintain. We categorize them by urgency and resolution approach.
+Context types are named intersections of common dimension combinations, providing governed shortcuts for frequent patterns.
 
-### 4.1 Critical Dependencies (Require Immediate Resolution)
+### 4.1 Predefined Context Types
 
-| Dependency | Categories | Issue | Resolution |
-|------------|------------|-------|------------|
-| Forced colors override | Appearance ↔ All | System colors replace all color tokens | Provide `forced-color-adjust` guidance; map semantics to system colors |
-| Focus precedence | Interaction ↔ Accessibility | Focus must override hover for keyboard users | CSS cascade: `:focus-visible` after `:hover` |
-| Touch target minimum | Density ↔ Accessibility | Compact mode cannot reduce targets below 44px | `min()` function: `min(var(--compact-size), 44px)` |
-| Tonal elevation derivation | Elevation ↔ Appearance | Surface tint color depends on theme primary | Token reference: `elevation.surface.tint: {color.primary}` |
+| Type Name | Dimensions | Use Case |
+|-----------|------------|----------|
+| `mobile-light` | viewport.breakpoint ≤ sm, appearance.scheme = light, density.touch = optimized | Mobile web default |
+| `mobile-dark` | viewport.breakpoint ≤ sm, appearance.scheme = dark, density.touch = optimized | Mobile web dark mode |
+| `desktop-compact` | viewport.breakpoint ≥ lg, density.mode = compact | Desktop productivity app |
+| `desktop-comfortable` | viewport.breakpoint ≥ lg, density.mode = comfortable | Desktop consumer app |
+| `kiosk` | display.mode = fullscreen, density.touch = optimized, accessibility.pointer = large | Public terminal |
+| `print` | platform.context = print, appearance.scheme = light, elevation.mode = border | Print stylesheet |
+| `high-contrast-dark` | accessibility.forced = active, appearance.scheme = dark | Windows high contrast |
+| `reduced-motion` | accessibility.motion = reduce | Motion-sensitive users |
+| `foldable-split` | viewport.segments = 2, viewport.posture = flat | Foldable in split view |
+| `rtl-compact` | locale.direction = rtl, density.mode = compact | RTL productivity app |
 
-### 4.2 Conditional Dependencies (Context-Specific)
+### 4.2 Context Type Resolution
 
-| Dependency | Trigger Condition | Affected Tokens |
-|------------|-------------------|-----------------|
+When a context type is applied, it sets the specified dimensions; unspecified dimensions inherit normally:
+
+```
+applyContextType("mobile-dark", coordinate) →
+  coordinate with {
+    viewport.breakpoint: ≤ sm,
+    appearance.scheme: dark,
+    density.touch: optimized,
+    ...other dimensions unchanged
+  }
+```
+
+### 4.3 Custom Context Types
+
+Organizations may define custom context types for their specific patterns:
+
+```json
+{
+  "contextTypes": {
+    "brand-portal-embedded": {
+      "platform.embedded": "iframe",
+      "appearance.theme": "brand-minimal",
+      "density.mode": "compact",
+      "elevation.maxLevel": 2
+    }
+  }
+}
+```
+
+---
+
+## 5. Inheritance and Scoping
+
+### 5.1 Inheritance Rules
+
+Context flows through the component tree according to these rules:
+
+| Rule | Description |
+|------|-------------|
+| **Downward propagation** | Context set on an ancestor applies to all descendants unless overridden |
+| **Nearest ancestor wins** | When multiple ancestors set a dimension, the nearest takes precedence |
+| **Explicit override** | A component may explicitly override any inherited dimension |
+| **Scope boundaries** | Certain structural elements (modal, popover, iframe) create new context scopes |
+
+### 5.2 Scope Boundaries
+
+Scope boundaries reset certain context dimensions while preserving others:
+
+| Boundary Type | Reset Dimensions | Preserved Dimensions |
+|---------------|------------------|----------------------|
+| **Modal/Dialog** | elevation, z-index | appearance, locale, accessibility |
+| **Popover** | elevation, z-index, container | appearance, locale, accessibility |
+| **Portal** | All structural | appearance, locale, accessibility, platform |
+| **Iframe** | All | (new document context) |
+| **Shadow DOM** | structural.depth | All others (piercing via CSS custom properties) |
+
+### 5.3 Context Providers
+
+Framework implementations expose context through provider components:
+
+```jsx
+<ContextProvider
+  appearance={{ scheme: "dark" }}
+  density={{ mode: "compact" }}
+>
+  {/* Children inherit dark scheme and compact density */}
+  <ContextProvider density={{ mode: "comfortable" }}>
+    {/* Children inherit dark scheme but comfortable density */}
+  </ContextProvider>
+</ContextProvider>
+```
+
+---
+
+## 6. Resolution Algorithm
+
+### 6.1 Token Resolution Steps
+
+Given a token reference and a context coordinate, resolution proceeds:
+
+1. **Collect context**: Walk ancestor chain to build complete context coordinate
+2. **Apply context type**: If a named context type is active, merge its dimensions
+3. **Check dependencies**: Identify cross-category dependencies affecting this token
+4. **Resolve conflicts**: Apply conflict resolution rules for any dimension intersections
+5. **Compute value**: Look up token value for the resolved context coordinate
+6. **Transform if needed**: Apply platform-specific transforms (color format, unit conversion)
+
+```
+resolve("color.surface.primary", coordinate) →
+  1. coordinate = { appearance.scheme: "dark", elevation.level: 2, ... }
+  2. No context type override
+  3. Dependencies: elevation.level affects surface tint
+  4. No conflicts
+  5. Value: compute tonal surface from primary + level 2 in dark scheme
+  6. Transform: #1a1a2e (CSS hex)
+```
+
+### 6.2 Conflict Resolution Order
+
+When dimensions conflict, apply this precedence (highest to lowest):
+
+1. **Accessibility overrides**: `forced-colors`, `prefers-contrast`, minimum target sizes
+2. **Explicit declarations**: Dimensions explicitly set on the element
+3. **Context type**: Dimensions from applied context type
+4. **Inherited context**: Dimensions from ancestor chain
+5. **Platform defaults**: Platform-specific default values
+6. **System defaults**: Ontology-defined defaults
+
+### 6.3 Exception Handling
+
+When resolution encounters an undefined combination:
+
+1. **Log the exception** with full context coordinate
+2. **Apply fallback** using nearest valid ancestor value
+3. **Track frequency** of the exception pattern
+4. **Promote to token** when pattern exceeds threshold
+
+This enables the system to learn from friction rather than suppressing it.
+
+---
+
+## 7. Cross-Category Dependencies
+
+This ontology documents 78 cross-category dependencies. Dependencies are classified by type:
+
+### 7.1 Critical Dependencies
+
+These dependencies must be resolved in every implementation:
+
+| Dependency | Categories | Resolution |
+|------------|------------|------------|
+| Forced colors override | Appearance ↔ All | System colors replace all color tokens |
+| Focus precedence | Interaction ↔ Accessibility | `:focus-visible` after `:hover` in cascade |
+| Touch target minimum | Density ↔ Accessibility | `min(var(--compact-size), 44px)` |
+| Tonal elevation | Elevation ↔ Appearance | Token reference: `elevation.surface.tint: {color.primary}` |
+
+### 7.2 Conditional Dependencies
+
+These dependencies activate under specific conditions:
+
+| Dependency | Trigger | Effect |
+|------------|---------|--------|
 | Motion ↔ Elevation | `prefers-reduced-motion: reduce` | Elevation transitions disabled |
-| Transparency ↔ Elevation | `prefers-reduced-transparency: reduce` | Backdrop blur tokens set to `none` |
+| Transparency ↔ Elevation | `prefers-reduced-transparency: reduce` | Backdrop blur set to `none` |
 | Writing mode ↔ Structure | `writing-mode: vertical-*` | Slot positions rotate |
 | Viewport ↔ Density | `viewport-segments: 2` | Layout mode becomes `split` |
 
-### 4.3 Implicit Dependencies (Often Undocumented)
+### 7.3 Implicit Dependencies
 
-| Dependency | Assumption | Risk |
-|------------|------------|------|
-| Platform → Color format | CSS uses hex, iOS uses RGB object | Build tool must transform |
-| Locale → Font stack | `lang` attribute determines font | Font fallback may have different metrics |
-| Container → Stacking context | `container-type` creates new stacking context | Affects z-index resolution |
+These dependencies are computed automatically:
 
----
-
-## 5. Recommendations
-
-### 5.1 Immediate Additions (High Impact, Well-Supported)
-
-1. **Add `focus-visible` to interaction states** — Essential for accessible keyboard navigation
-2. **Add `indeterminate` to combinable states** — Required for hierarchical selection
-3. **Add `current` (aria-current) to combinable states** — Navigation context
-4. **Add safe area inset dimensions to viewport** — Well-supported, rarely tokenized
-5. **Add CVD-safe mode to accessibility** — Following GitHub Primer's implementation
-
-### 5.2 Medium-Term Additions (Emerging Support)
-
-1. **Add foldable device dimensions** — Viewport segments, fold posture
-2. **Add container scroll-state queries** — New in CSS specification
-3. **Add text expansion factor to locale** — Critical for internationalization
-4. **Add performance tier to platform** — Device capability awareness
-5. **Add urgency/temporal to semantic** — Beyond status/emphasis
-
-### 5.3 Structural Changes
-
-1. **Reclassify `focus` from mutually exclusive to additive** — Corrects fundamental misclassification
-2. **Split `error` into `invalid` (validation) and `error` (system)** — Different semantics
-3. **Add dependency documentation requirement** — Each dimension must declare cross-category relationships
-4. **Add resolution order specification** — When dimensions conflict, define precedence
+| Dependency | Computation |
+|------------|-------------|
+| Platform → Color format | Build transform: CSS hex, iOS RGB object, Android AARRGGBB |
+| Locale → Font stack | Computed from language/script type |
+| Container → Stacking context | `container-type` creates new stacking context |
+| Surface level → Shadow depth | Computed from elevation level and appearance scheme |
 
 ---
 
-## 6. Proposed Token Architecture
+## 8. Token Architecture
 
-We propose a layered architecture that ensures dependencies flow in a single direction—downward through the stack.
+### 8.1 Layer Model
+
+The ontology supports a layered token architecture with unidirectional dependencies:
 
 ```
-├── Context Layer (Environment)
-│   ├── viewport-*, platform-*, locale-*
-│   └── Detected automatically, read-only
-│
-├── Preference Layer (User Settings)
-│   ├── prefers-*, density-*, accessibility-*
-│   └── User-controllable, system-detectable
-│
-├── Semantic Layer (Design Intent)
-│   ├── status-*, emphasis-*, intent-*
-│   └── Author-defined, context-independent
-│
-├── State Layer (Interaction)
-│   ├── interaction-*, combinable-*
-│   └── Runtime-dynamic, composable
-│
-└── Component Layer (Implementation)
-    ├── {component}-{property}-{state}
-    └── References semantic layer only
+┌─────────────────────────────────────────────────────────────────┐
+│ Context Layer (Environment)                                     │
+│   viewport-*, platform-*, locale-*                              │
+│   Detected automatically, read-only                             │
+├─────────────────────────────────────────────────────────────────┤
+│ Preference Layer (User Settings)                                │
+│   prefers-*, density-*, accessibility-*                         │
+│   User-controllable, system-detectable                          │
+├─────────────────────────────────────────────────────────────────┤
+│ Semantic Layer (Design Intent)                                  │
+│   status-*, emphasis-*, intent-*                                │
+│   Author-defined, context-independent                           │
+├─────────────────────────────────────────────────────────────────┤
+│ State Layer (Interaction)                                       │
+│   interaction-*, combinable-*                                   │
+│   Runtime-dynamic, composable                                   │
+├─────────────────────────────────────────────────────────────────┤
+│ Component Layer (Implementation)                                │
+│   {component}-{property}-{state}                                │
+│   References semantic layer only                                │
+└─────────────────────────────────────────────────────────────────┘
+         ↑ Dependencies flow upward (component → semantic → preference → context)
 ```
 
-### 6.1 Architecture Principles
+### 8.2 Architecture Principles
 
-1. **Unidirectional dependencies**: Component tokens reference semantic tokens, which reference preference tokens, which respect context tokens
-2. **No sibling references**: Cross-references at the same layer indicate architectural issues requiring refactoring
-3. **Explicit conflict resolution**: When multiple contexts apply, the resolution order must be documented
-4. **Platform-agnostic definitions**: Core token definitions remain platform-agnostic; transforms handle platform-specific formats
+1. **Unidirectional flow**: Component tokens reference semantic tokens, which reference preference tokens, which respect context tokens
+2. **No sibling references**: Cross-references at the same layer indicate architecture violations
+3. **Explicit chains**: Every resolved value traces back through a documented path
+4. **Predictable blast radius**: Changes at any tier have bounded effects
 
-### 6.2 Token Naming Convention
+### 8.3 Token Naming Convention
 
 ```
 {layer}.{category}.{property}[.{variant}][.{state}]
 ```
 
-Examples:
-- `context.viewport.breakpoint` — Current viewport breakpoint
-- `preference.accessibility.motion` — User's motion preference
-- `semantic.status.error.background` — Error state background color
-- `component.button.background.hover` — Button hover background
+| Example | Description |
+|---------|-------------|
+| `context.viewport.breakpoint` | Current viewport breakpoint |
+| `preference.accessibility.motion` | User's motion preference |
+| `semantic.status.error.background` | Error state background |
+| `semantic.emphasis.primary.foreground` | Primary emphasis text |
+| `component.button.background.hover` | Button hover background |
+
+### 8.4 SSOT Traceability
+
+Every resolved token value must be traceable:
+
+```
+component.button.background.hover
+  → references: semantic.emphasis.primary.background.hover
+    → references: preference.appearance.scheme (= dark)
+      → modifies: color.primary.400 → color.primary.300
+        → primitive: #818cf8
+```
 
 ---
 
-## 7. Conclusion
+## 9. Conclusion
 
-This analysis demonstrates that current design token ontologies address approximately 60% of real-world contextual requirements. The remaining 40% represents critical gaps in accessibility variants, emerging device form factors, internationalization support, and cross-category dependency management.
+This specification defines a comprehensive context ontology for design token resolution, comprising:
 
-The 47 missing dimensions identified in this paper represent opportunities for design systems to better serve diverse user needs and deployment contexts. The 78 documented cross-category dependencies highlight the complexity inherent in multi-dimensional token resolution and the need for explicit dependency management.
+- **12 context categories** covering all aspects of token resolution
+- **93 dimensions** with complete value enumerations
+- **5 volatility classes** for caching and invalidation strategy
+- **78 cross-category dependencies** with documented resolution rules
+- **52 conflict scenarios** with prescribed handling
+- **Named context types** for common dimension intersections
+- **Inheritance and scoping rules** for component tree propagation
+- **Resolution algorithm** with explicit precedence ordering
 
-Organizations adopting design tokens should:
+The ontology supports a Single Source of Truth architecture where every resolved token value traces back through an explicit chain. Context types are finite and governed. Exceptions are logged and can be promoted to formal tokens when patterns emerge. The system learns from friction rather than suppressing it.
 
-1. Audit their current ontology against this framework
-2. Prioritize additions based on their user demographics and deployment targets
-3. Document cross-category dependencies explicitly in their token specifications
-4. Implement the layered architecture to ensure maintainable token hierarchies
+Organizations implementing this ontology gain:
 
-As web platform capabilities expand—particularly container queries, foldable device support, and accessibility media features—design token ontologies must evolve correspondingly. This whitepaper provides the analytical foundation for that evolution.
+1. **Complete coverage** of real-world context requirements
+2. **Predictable behavior** through documented resolution rules
+3. **Maintainable architecture** through layered dependencies
+4. **Future compatibility** through extensible dimension model
+
+This specification serves as the authoritative reference for implementing context-aware design token systems.
 
 ---
 
-## Appendix A: Terminology Reference
+## Appendix A: Terminology
 
 | Term | Definition |
 |------|------------|
-| **Context** | An environmental or user-preference condition that affects token resolution |
-| **Dimension** | A single axis within a context category (e.g., "color mode" within Appearance) |
-| **Enumeration** | The set of valid values for a dimension |
-| **Detection mechanism** | Method for determining current dimension value (CSS query, JavaScript API, platform API) |
-| **Cross-category dependency** | A relationship where one context category affects another |
-| **Token resolution** | The process of determining the concrete value for a token given current contexts |
-| **Mutually exclusive states** | States where only one can be active at a time |
-| **Additive states** | States that can combine freely |
-| **Edge case** | Scenario where multiple dimensions create resolution ambiguity |
+| **Context** | Environmental or user-preference condition affecting token resolution |
+| **Dimension** | Single axis within a context category |
+| **Volatility** | Classification of how frequently a dimension's value changes |
+| **Context coordinate** | Complete set of dimension values at a point in the component tree |
+| **Context type** | Named intersection of common dimension combinations |
+| **Scope boundary** | Structural element that resets certain context dimensions |
+| **Resolution** | Process of determining concrete value for a token given context |
+| **Dependency** | Relationship where one category's resolution affects another |
 
 ---
 
-## Appendix B: Referenced Design Systems
+## Appendix B: Dimension Quick Reference
 
-The following design systems were analyzed in preparing this whitepaper:
-
-| Design System | Organization | Key Contributions |
-|---------------|--------------|-------------------|
-| Material Design 3 | Google | Tonal elevation, dynamic color, density scale |
-| IBM Carbon | IBM | Layer-based contextual tokens, theme zones |
-| Atlassian Design System | Atlassian | Z-index semantic layers, color mode handling |
-| Adobe Spectrum | Adobe | Token explosion analysis, component-level patterns |
-| Salesforce Lightning | Salesforce | Status/feedback token taxonomy |
-| SAP Fiori | SAP | Density switching, cozy/compact patterns |
-| GitHub Primer | GitHub | CVD-safe themes, dark-dimmed variant |
-| AWS Cloudscape | Amazon | Density terminology, component patterns |
-| GitLab Pajamas | GitLab | Status vs feedback token distinction |
+| Category | Dimension Count | Volatility Range |
+|----------|-----------------|------------------|
+| Appearance | 11 | Immutable–Stable |
+| Density | 9 | Immutable–Inherited |
+| Viewport | 11 | Immutable–Volatile |
+| Container | 7 | Inherited–Volatile |
+| Interaction (Exclusive) | 9 | Volatile |
+| Combinable States | 18 | Volatile–Stable |
+| Accessibility | 8 | Stable |
+| Locale | 10 | Stable |
+| Platform | 10 | Immutable–Volatile |
+| Elevation | 8 | Inherited–Computed |
+| Semantic | 8 | Volatile–Stable |
+| Structural | 10 | Immutable–Inherited |
+| **Total** | **93** | |
 
 ---
 
 ## Appendix C: Referenced Specifications
 
-| Specification | Version | Relevance |
-|---------------|---------|-----------|
-| W3C Design Tokens Community Group Format | Draft | Token interchange format |
-| CSS Color Level 4 | CR | Color spaces, gamut mapping |
-| CSS Media Queries Level 5 | WD | Preference queries, viewport segments |
-| CSS Containment Level 3 | CR | Container queries, style queries |
-| CSS Writing Modes Level 4 | CR | Vertical text, bidirectional handling |
-| WAI-ARIA 1.2 | REC | Accessibility state mappings |
-| WCAG 2.2 | REC | Accessibility requirements, target sizes |
-| Screen Fold API | Draft | Foldable device posture detection |
+| Specification | Relevance |
+|---------------|-----------|
+| W3C Design Tokens Community Group Format | Token interchange format |
+| CSS Media Queries Level 5 | Preference and viewport queries |
+| CSS Containment Level 3 | Container queries |
+| CSS Color Level 4 | Color spaces, gamut |
+| WAI-ARIA 1.2 | Accessibility state mappings |
+| WCAG 2.2 | Accessibility requirements |
+| Screen Fold API | Foldable device detection |
+| CSS Writing Modes Level 4 | Internationalization |
 
 ---
 
-*This whitepaper was prepared based on analysis of the specifications and design systems listed above.*
+*This specification defines the Design Token Context Ontology, version 1.0.*
