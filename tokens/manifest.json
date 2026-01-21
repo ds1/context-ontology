@@ -6,6 +6,16 @@
 
   "collections": [
     {
+      "name": "Primitives",
+      "file": "collections/primitives.json",
+      "description": "Raw color palette values (gray, blue, red, etc.) - foundation for semantic tokens",
+      "modes": ["value"],
+      "defaultMode": "value",
+      "category": "primitives",
+      "volatility": "immutable",
+      "detection": "none"
+    },
+    {
       "name": "Theme",
       "file": "collections/theme.json",
       "description": "Color scheme modes for light, dark, and dim themes",
@@ -100,6 +110,7 @@
   "figma": {
     "pluginCompatibility": "gitfig",
     "variableCollectionMapping": {
+      "Primitives": "collections/primitives.json",
       "Theme": "collections/theme.json",
       "Density": "collections/density.json",
       "Viewport": "collections/viewport.json",
@@ -278,8 +289,8 @@
     "generatedAt": "2026-01-21T00:00:00Z",
     "specVersion": "W3C Design Tokens Community Group Draft",
     "ontologyVersion": "2.0.0",
-    "totalCollections": 9,
-    "totalModes": 31,
-    "totalTokens": "~2500"
+    "totalCollections": 10,
+    "totalModes": 32,
+    "totalTokens": "~2750"
   }
 }
