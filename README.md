@@ -1,6 +1,6 @@
 # Design Token Context Ontology
 
-A comprehensive specification for multi-dimensional design token resolution.
+A comprehensive specification for multi-dimensional design token resolution with full Figma Variables support.
 
 ## The Problem
 
@@ -35,72 +35,90 @@ The complete specification defining:
 | **Named Context Types** | Governed shortcuts for common patterns (mobile-dark, kiosk, print) |
 | **Resolution Algorithm** | Explicit precedence ordering for token resolution |
 
-### [Token Repository](tokens/)
+### [Token Collections](tokens/)
 
-W3C Design Tokens format implementation with 19 JSON files:
+W3C Design Tokens format implementation with 9 multi-mode collections (~2,500 tokens):
 
 ```
 tokens/
-├── context/          # 93 context dimensions (8 files)
-├── preference/       # User-controllable settings (3 files)
-├── semantic/         # Design intent tokens (6 files)
-├── state/            # Interaction & combinable states (2 files)
-├── component/        # Example component tokens
-└── manifest.json     # GitFig integration mappings
+├── collections/
+│   ├── theme.json       # Light / Dark / Dim color schemes
+│   ├── density.json     # Compact / Comfortable / Spacious spacing
+│   ├── viewport.json    # Mobile / Tablet / Desktop layouts
+│   ├── contrast.json    # Standard / High / Forced accessibility
+│   ├── motion.json      # Full / Reduced / None animations
+│   ├── elevation.json   # Base / Raised / Elevated surfaces
+│   ├── typography.json  # Default / Editorial / Technical styles
+│   ├── state.json       # Rest / Hover / Active / Disabled states
+│   └── brand.json       # Primary / Secondary / Partner identities
+└── manifest.json        # Collection metadata & GitFig mappings
 ```
+
+## Collections Overview
+
+| Collection | Modes | Purpose |
+|------------|-------|---------|
+| **Theme** | light, dark, dim | Color schemes with surfaces, foregrounds, borders, status colors |
+| **Density** | compact, comfortable, spacious | Spacing, sizing, touch targets, component dimensions |
+| **Viewport** | mobile, tablet, desktop | Responsive layouts, grids, breakpoints, navigation patterns |
+| **Contrast** | standard, high, forced | Accessibility colors, focus rings, border widths |
+| **Motion** | full, reduced, none | Durations, easings, animations, scroll behaviors |
+| **Elevation** | base, raised, elevated | Shadows, z-indices, glass effects, surface treatments |
+| **Typography** | default, editorial, technical | Font families, text styles, line heights, spacing |
+| **State** | rest, hover, active, disabled | Interaction states for buttons, inputs, links, cards |
+| **Brand** | primary, secondary, partner | Brand colors, gradients, radii, typography per brand |
 
 ## Architecture
 
-The ontology defines a **layered token architecture** with unidirectional dependencies:
+Each collection represents an **independent context dimension** with its own modes:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  Context Layer        viewport, platform, locale            │
-│                       Detected automatically, read-only     │
-├─────────────────────────────────────────────────────────────┤
-│  Preference Layer     prefers-*, density, accessibility     │
-│                       User-controllable, system-detectable  │
-├─────────────────────────────────────────────────────────────┤
-│  Semantic Layer       status, emphasis, intent              │
-│                       Author-defined, context-independent   │
-├─────────────────────────────────────────────────────────────┤
-│  State Layer          interaction, combinable states        │
-│                       Runtime-dynamic, composable           │
-├─────────────────────────────────────────────────────────────┤
-│  Component Layer      {component}-{property}-{state}        │
-│                       References semantic layer only        │
-└─────────────────────────────────────────────────────────────┘
-        ↑ Dependencies flow upward only
+┌──────────────────────────────────────────────────────────────────────────┐
+│  Collection: Theme                                                       │
+│  Modes: [light, dark, dim]                                               │
+│  Detection: prefers-color-scheme, user preference                        │
+├──────────────────────────────────────────────────────────────────────────┤
+│  Collection: Density                                                     │
+│  Modes: [compact, comfortable, spacious]                                 │
+│  Detection: pointer type, user preference                                │
+├──────────────────────────────────────────────────────────────────────────┤
+│  Collection: Viewport                                                    │
+│  Modes: [mobile, tablet, desktop]                                        │
+│  Detection: viewport width, container queries                            │
+├──────────────────────────────────────────────────────────────────────────┤
+│  ...additional collections...                                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+Each token has explicit values for ALL modes in its collection:
+
+{
+  "surface.default": {
+    "$type": "color",
+    "$value": "#ffffff",
+    "$extensions": {
+      "mode": {
+        "light": "#ffffff",
+        "dark": "#0a0a0a",
+        "dim": "#1a1a1a"
+      }
+    }
+  }
+}
 ```
-
-## Design Philosophy
-
-This ontology supports a **Single Source of Truth (SSOT) architecture** with controlled contextual variation:
-
-1. **Explicit chains** — Every resolved token value traces back through a documented path
-2. **Governed types** — Context types are finite and governed, not arbitrary
-3. **Learnable friction** — Exceptions are logged and promoted to tokens when patterns emerge
-4. **Predictable blast radius** — Changes at any tier have bounded, knowable effects
 
 ## Quick Start
 
-### Use the Tokens
+### Import to Figma with GitFig
 
-```javascript
-// Import semantic tokens
-import colors from './tokens/semantic/color.json';
-import status from './tokens/semantic/status.json';
+1. Install [GitFig](https://github.com/nicholasareed/gitfig) plugin in Figma
+2. Connect your repository
+3. Import each collection file → each becomes a Figma Variable Collection with modes
 
-// Access with dark mode variant
-const primary = colors.accent.default.$value; // #0d6efd
-const primaryDark = colors.accent.default.$extensions.mode.dark; // #6ea8fe
-```
-
-### With Style Dictionary
+### Use with Style Dictionary
 
 ```json
 {
-  "source": ["tokens/**/*.json"],
+  "source": ["tokens/collections/*.json"],
   "platforms": {
     "css": {
       "transformGroup": "css",
@@ -111,26 +129,34 @@ const primaryDark = colors.accent.default.$extensions.mode.dark; // #6ea8fe
 }
 ```
 
-### With GitFig (Figma)
+### Use Directly
 
-The tokens are compatible with [GitFig](https://github.com/nicholasareed/gitfig) for syncing to Figma Variables. See `tokens/manifest.json` for suggested file mappings.
+```javascript
+import theme from './tokens/collections/theme.json';
+import density from './tokens/collections/density.json';
 
-## Context Categories
+// Get light mode surface color
+const surfaceLight = theme.surface.default.$extensions.mode.light; // #ffffff
 
-| Category | Dimensions | Key Concepts |
-|----------|------------|--------------|
-| **Appearance** | 11 | Color scheme, contrast, forced colors, dynamic color, gamut |
-| **Density** | 9 | Density mode, touch optimization, scale factor, font scaling |
-| **Viewport** | 11 | Breakpoints, orientation, foldables, safe areas, virtual keyboard |
-| **Container** | 7 | Container queries, aspect ratio, scroll state |
-| **Interaction** | 9 | Rest, hover, active, disabled, pending, dragged (mutually exclusive) |
-| **Combinable** | 18 | Focus, selected, checked, expanded, invalid (can combine) |
-| **Accessibility** | 8 | Reduced motion, transparency, CVD modes, focus visibility |
-| **Locale** | 10 | Direction, writing mode, script type, text expansion |
-| **Platform** | 10 | Platform, framework, rendering context, performance tier |
-| **Elevation** | 8 | Surface levels, shadows, z-index, backdrop blur |
-| **Semantic** | 8 | Status, emphasis, intent, urgency, provenance |
-| **Structural** | 10 | Region, nesting depth, list position, component lifecycle |
+// Get dark mode surface color
+const surfaceDark = theme.surface.default.$extensions.mode.dark; // #0a0a0a
+
+// Get spacing for comfortable density
+const spacing4 = density.spacing['4'].$extensions.mode.comfortable; // 16px
+
+// Get spacing for compact density
+const spacing4Compact = density.spacing['4'].$extensions.mode.compact; // 12px
+```
+
+## Design Philosophy
+
+This ontology supports a **Single Source of Truth (SSOT) architecture** with controlled contextual variation:
+
+1. **Explicit chains** — Every resolved token value traces back through a documented path
+2. **Governed types** — Context types are finite and governed, not arbitrary
+3. **Learnable friction** — Exceptions are logged and promoted to tokens when patterns emerge
+4. **Predictable blast radius** — Changes at any tier have bounded, knowable effects
+5. **Full mode coverage** — Every token has explicit values for all modes (no fallbacks needed)
 
 ## Resolution Precedence
 
@@ -142,6 +168,21 @@ When dimensions conflict, resolution follows this order (highest to lowest):
 4. **Inherited context** — Dimensions from ancestor chain
 5. **Platform defaults** — Platform-specific default values
 6. **System defaults** — Ontology-defined defaults
+
+## Named Context Types
+
+Pre-defined combinations for common scenarios:
+
+| Context Type | Dimensions |
+|--------------|------------|
+| `mobile-dark` | viewport: mobile, theme: dark, density: comfortable |
+| `desktop-light` | viewport: desktop, theme: light, density: comfortable |
+| `kiosk` | viewport: desktop, theme: dark, density: spacious, contrast: high |
+| `print` | theme: light, contrast: high, motion: none, elevation: base |
+| `high-contrast` | contrast: high, elevation: base |
+| `reduced-motion` | motion: reduced |
+| `compact-ui` | density: compact, typography: technical |
+| `editorial-reading` | density: spacious, typography: editorial |
 
 ## License
 

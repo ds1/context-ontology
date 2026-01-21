@@ -1,0 +1,589 @@
+{
+  "$description": "Motion collection - Animation preference modes: full, reduced, none",
+  "$extensions": {
+    "figma.collection": "Motion",
+    "figma.modes": ["full", "reduced", "none"]
+  },
+
+  "duration": {
+    "instant": {
+      "$type": "duration",
+      "$value": "0ms",
+      "$extensions": { "mode": { "full": "0ms", "reduced": "0ms", "none": "0ms" } }
+    },
+    "fastest": {
+      "$type": "duration",
+      "$value": "50ms",
+      "$extensions": { "mode": { "full": "50ms", "reduced": "0ms", "none": "0ms" } }
+    },
+    "faster": {
+      "$type": "duration",
+      "$value": "100ms",
+      "$extensions": { "mode": { "full": "100ms", "reduced": "0ms", "none": "0ms" } }
+    },
+    "fast": {
+      "$type": "duration",
+      "$value": "150ms",
+      "$extensions": { "mode": { "full": "150ms", "reduced": "0ms", "none": "0ms" } }
+    },
+    "normal": {
+      "$type": "duration",
+      "$value": "200ms",
+      "$extensions": { "mode": { "full": "200ms", "reduced": "0ms", "none": "0ms" } }
+    },
+    "slow": {
+      "$type": "duration",
+      "$value": "300ms",
+      "$extensions": { "mode": { "full": "300ms", "reduced": "100ms", "none": "0ms" } }
+    },
+    "slower": {
+      "$type": "duration",
+      "$value": "400ms",
+      "$extensions": { "mode": { "full": "400ms", "reduced": "150ms", "none": "0ms" } }
+    },
+    "slowest": {
+      "$type": "duration",
+      "$value": "500ms",
+      "$extensions": { "mode": { "full": "500ms", "reduced": "200ms", "none": "0ms" } }
+    },
+    "deliberate": {
+      "$type": "duration",
+      "$value": "700ms",
+      "$extensions": { "mode": { "full": "700ms", "reduced": "200ms", "none": "0ms" } }
+    },
+    "emphasis": {
+      "$type": "duration",
+      "$value": "1000ms",
+      "$extensions": { "mode": { "full": "1000ms", "reduced": "300ms", "none": "0ms" } }
+    }
+  },
+
+  "easing": {
+    "linear": {
+      "$type": "cubicBezier",
+      "$value": [0, 0, 1, 1],
+      "$extensions": { "mode": { "full": [0, 0, 1, 1], "reduced": [0, 0, 1, 1], "none": [0, 0, 1, 1] } }
+    },
+    "ease": {
+      "$type": "cubicBezier",
+      "$value": [0.25, 0.1, 0.25, 1],
+      "$extensions": { "mode": { "full": [0.25, 0.1, 0.25, 1], "reduced": [0, 0, 1, 1], "none": [0, 0, 1, 1] } }
+    },
+    "ease-in": {
+      "$type": "cubicBezier",
+      "$value": [0.42, 0, 1, 1],
+      "$extensions": { "mode": { "full": [0.42, 0, 1, 1], "reduced": [0, 0, 1, 1], "none": [0, 0, 1, 1] } }
+    },
+    "ease-out": {
+      "$type": "cubicBezier",
+      "$value": [0, 0, 0.58, 1],
+      "$extensions": { "mode": { "full": [0, 0, 0.58, 1], "reduced": [0, 0, 1, 1], "none": [0, 0, 1, 1] } }
+    },
+    "ease-in-out": {
+      "$type": "cubicBezier",
+      "$value": [0.42, 0, 0.58, 1],
+      "$extensions": { "mode": { "full": [0.42, 0, 0.58, 1], "reduced": [0, 0, 1, 1], "none": [0, 0, 1, 1] } }
+    },
+    "spring": {
+      "$type": "cubicBezier",
+      "$value": [0.175, 0.885, 0.32, 1.275],
+      "$extensions": { "mode": { "full": [0.175, 0.885, 0.32, 1.275], "reduced": [0, 0, 0.58, 1], "none": [0, 0, 1, 1] } }
+    },
+    "bounce": {
+      "$type": "cubicBezier",
+      "$value": [0.68, -0.55, 0.265, 1.55],
+      "$extensions": { "mode": { "full": [0.68, -0.55, 0.265, 1.55], "reduced": [0, 0, 0.58, 1], "none": [0, 0, 1, 1] } }
+    },
+    "emphasized": {
+      "$type": "cubicBezier",
+      "$value": [0.2, 0, 0, 1],
+      "$extensions": { "mode": { "full": [0.2, 0, 0, 1], "reduced": [0, 0, 0.58, 1], "none": [0, 0, 1, 1] } }
+    },
+    "decelerate": {
+      "$type": "cubicBezier",
+      "$value": [0, 0, 0.2, 1],
+      "$extensions": { "mode": { "full": [0, 0, 0.2, 1], "reduced": [0, 0, 1, 1], "none": [0, 0, 1, 1] } }
+    },
+    "accelerate": {
+      "$type": "cubicBezier",
+      "$value": [0.4, 0, 1, 1],
+      "$extensions": { "mode": { "full": [0.4, 0, 1, 1], "reduced": [0, 0, 1, 1], "none": [0, 0, 1, 1] } }
+    }
+  },
+
+  "transition": {
+    "micro": {
+      "$type": "transition",
+      "$value": {
+        "duration": "100ms",
+        "timingFunction": [0, 0, 0.58, 1]
+      },
+      "$extensions": {
+        "mode": {
+          "full": { "duration": "100ms", "timingFunction": [0, 0, 0.58, 1] },
+          "reduced": { "duration": "0ms", "timingFunction": [0, 0, 1, 1] },
+          "none": { "duration": "0ms", "timingFunction": [0, 0, 1, 1] }
+        }
+      }
+    },
+    "state-change": {
+      "$type": "transition",
+      "$value": {
+        "duration": "150ms",
+        "timingFunction": [0.25, 0.1, 0.25, 1]
+      },
+      "$extensions": {
+        "mode": {
+          "full": { "duration": "150ms", "timingFunction": [0.25, 0.1, 0.25, 1] },
+          "reduced": { "duration": "0ms", "timingFunction": [0, 0, 1, 1] },
+          "none": { "duration": "0ms", "timingFunction": [0, 0, 1, 1] }
+        }
+      }
+    },
+    "expand": {
+      "$type": "transition",
+      "$value": {
+        "duration": "250ms",
+        "timingFunction": [0, 0, 0.2, 1]
+      },
+      "$extensions": {
+        "mode": {
+          "full": { "duration": "250ms", "timingFunction": [0, 0, 0.2, 1] },
+          "reduced": { "duration": "100ms", "timingFunction": [0, 0, 1, 1] },
+          "none": { "duration": "0ms", "timingFunction": [0, 0, 1, 1] }
+        }
+      }
+    },
+    "collapse": {
+      "$type": "transition",
+      "$value": {
+        "duration": "200ms",
+        "timingFunction": [0.4, 0, 1, 1]
+      },
+      "$extensions": {
+        "mode": {
+          "full": { "duration": "200ms", "timingFunction": [0.4, 0, 1, 1] },
+          "reduced": { "duration": "100ms", "timingFunction": [0, 0, 1, 1] },
+          "none": { "duration": "0ms", "timingFunction": [0, 0, 1, 1] }
+        }
+      }
+    },
+    "page": {
+      "$type": "transition",
+      "$value": {
+        "duration": "300ms",
+        "timingFunction": [0.2, 0, 0, 1]
+      },
+      "$extensions": {
+        "mode": {
+          "full": { "duration": "300ms", "timingFunction": [0.2, 0, 0, 1] },
+          "reduced": { "duration": "0ms", "timingFunction": [0, 0, 1, 1] },
+          "none": { "duration": "0ms", "timingFunction": [0, 0, 1, 1] }
+        }
+      }
+    },
+    "modal-enter": {
+      "$type": "transition",
+      "$value": {
+        "duration": "350ms",
+        "timingFunction": [0.2, 0, 0, 1]
+      },
+      "$extensions": {
+        "mode": {
+          "full": { "duration": "350ms", "timingFunction": [0.2, 0, 0, 1] },
+          "reduced": { "duration": "150ms", "timingFunction": [0, 0, 1, 1] },
+          "none": { "duration": "0ms", "timingFunction": [0, 0, 1, 1] }
+        }
+      }
+    },
+    "modal-exit": {
+      "$type": "transition",
+      "$value": {
+        "duration": "250ms",
+        "timingFunction": [0.4, 0, 1, 1]
+      },
+      "$extensions": {
+        "mode": {
+          "full": { "duration": "250ms", "timingFunction": [0.4, 0, 1, 1] },
+          "reduced": { "duration": "100ms", "timingFunction": [0, 0, 1, 1] },
+          "none": { "duration": "0ms", "timingFunction": [0, 0, 1, 1] }
+        }
+      }
+    }
+  },
+
+  "animation": {
+    "spin": {
+      "$type": "string",
+      "$value": "spin 1s linear infinite",
+      "$extensions": { "mode": { "full": "spin 1s linear infinite", "reduced": "none", "none": "none" } }
+    },
+    "ping": {
+      "$type": "string",
+      "$value": "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
+      "$extensions": { "mode": { "full": "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite", "reduced": "none", "none": "none" } }
+    },
+    "pulse": {
+      "$type": "string",
+      "$value": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      "$extensions": { "mode": { "full": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite", "reduced": "none", "none": "none" } }
+    },
+    "bounce": {
+      "$type": "string",
+      "$value": "bounce 1s infinite",
+      "$extensions": { "mode": { "full": "bounce 1s infinite", "reduced": "none", "none": "none" } }
+    },
+    "shake": {
+      "$type": "string",
+      "$value": "shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97)",
+      "$extensions": { "mode": { "full": "shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97)", "reduced": "none", "none": "none" } }
+    },
+    "fade-in": {
+      "$type": "string",
+      "$value": "fadeIn 200ms ease-out",
+      "$extensions": { "mode": { "full": "fadeIn 200ms ease-out", "reduced": "fadeIn 100ms linear", "none": "none" } }
+    },
+    "fade-out": {
+      "$type": "string",
+      "$value": "fadeOut 150ms ease-in",
+      "$extensions": { "mode": { "full": "fadeOut 150ms ease-in", "reduced": "fadeOut 100ms linear", "none": "none" } }
+    },
+    "slide-in-up": {
+      "$type": "string",
+      "$value": "slideInUp 300ms ease-out",
+      "$extensions": { "mode": { "full": "slideInUp 300ms ease-out", "reduced": "fadeIn 150ms linear", "none": "none" } }
+    },
+    "slide-in-down": {
+      "$type": "string",
+      "$value": "slideInDown 300ms ease-out",
+      "$extensions": { "mode": { "full": "slideInDown 300ms ease-out", "reduced": "fadeIn 150ms linear", "none": "none" } }
+    },
+    "slide-in-left": {
+      "$type": "string",
+      "$value": "slideInLeft 300ms ease-out",
+      "$extensions": { "mode": { "full": "slideInLeft 300ms ease-out", "reduced": "fadeIn 150ms linear", "none": "none" } }
+    },
+    "slide-in-right": {
+      "$type": "string",
+      "$value": "slideInRight 300ms ease-out",
+      "$extensions": { "mode": { "full": "slideInRight 300ms ease-out", "reduced": "fadeIn 150ms linear", "none": "none" } }
+    },
+    "scale-in": {
+      "$type": "string",
+      "$value": "scaleIn 200ms ease-out",
+      "$extensions": { "mode": { "full": "scaleIn 200ms ease-out", "reduced": "fadeIn 100ms linear", "none": "none" } }
+    },
+    "scale-out": {
+      "$type": "string",
+      "$value": "scaleOut 150ms ease-in",
+      "$extensions": { "mode": { "full": "scaleOut 150ms ease-in", "reduced": "fadeOut 100ms linear", "none": "none" } }
+    },
+    "skeleton": {
+      "$type": "string",
+      "$value": "skeleton 1.5s ease-in-out infinite",
+      "$extensions": { "mode": { "full": "skeleton 1.5s ease-in-out infinite", "reduced": "none", "none": "none" } }
+    },
+    "progress-indeterminate": {
+      "$type": "string",
+      "$value": "indeterminate 2s linear infinite",
+      "$extensions": { "mode": { "full": "indeterminate 2s linear infinite", "reduced": "none", "none": "none" } }
+    }
+  },
+
+  "transform": {
+    "hover-scale": {
+      "$type": "number",
+      "$value": 1.02,
+      "$extensions": { "mode": { "full": 1.02, "reduced": 1, "none": 1 } }
+    },
+    "active-scale": {
+      "$type": "number",
+      "$value": 0.98,
+      "$extensions": { "mode": { "full": 0.98, "reduced": 1, "none": 1 } }
+    },
+    "hover-lift": {
+      "$type": "dimension",
+      "$value": "-2px",
+      "$extensions": { "mode": { "full": "-2px", "reduced": "0px", "none": "0px" } }
+    },
+    "active-press": {
+      "$type": "dimension",
+      "$value": "1px",
+      "$extensions": { "mode": { "full": "1px", "reduced": "0px", "none": "0px" } }
+    }
+  },
+
+  "scroll": {
+    "behavior": {
+      "$type": "string",
+      "$value": "smooth",
+      "$extensions": { "mode": { "full": "smooth", "reduced": "auto", "none": "auto" } }
+    },
+    "snap-type": {
+      "$type": "string",
+      "$value": "x mandatory",
+      "$extensions": { "mode": { "full": "x mandatory", "reduced": "none", "none": "none" } }
+    }
+  },
+
+  "parallax": {
+    "enabled": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "intensity": {
+      "$type": "number",
+      "$value": 0.3,
+      "$extensions": { "mode": { "full": 0.3, "reduced": 0, "none": 0 } }
+    }
+  },
+
+  "carousel": {
+    "auto-play": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "transition-duration": {
+      "$type": "duration",
+      "$value": "500ms",
+      "$extensions": { "mode": { "full": "500ms", "reduced": "200ms", "none": "0ms" } }
+    },
+    "pause-on-hover": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": true, "none": true } }
+    }
+  },
+
+  "loading": {
+    "spinner-animation": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "skeleton-animation": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "progress-animation": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "fallback-indicator": {
+      "$type": "string",
+      "$value": "spinner",
+      "$extensions": { "mode": { "full": "spinner", "reduced": "static", "none": "text" } }
+    }
+  },
+
+  "notification": {
+    "enter-animation": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": true, "none": false } }
+    },
+    "exit-animation": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": true, "none": false } }
+    },
+    "auto-dismiss-delay": {
+      "$type": "duration",
+      "$value": "5000ms",
+      "$extensions": { "mode": { "full": "5000ms", "reduced": "7000ms", "none": "10000ms" } }
+    }
+  },
+
+  "tooltip": {
+    "delay-show": {
+      "$type": "duration",
+      "$value": "300ms",
+      "$extensions": { "mode": { "full": "300ms", "reduced": "500ms", "none": "0ms" } }
+    },
+    "delay-hide": {
+      "$type": "duration",
+      "$value": "100ms",
+      "$extensions": { "mode": { "full": "100ms", "reduced": "0ms", "none": "0ms" } }
+    },
+    "fade-duration": {
+      "$type": "duration",
+      "$value": "150ms",
+      "$extensions": { "mode": { "full": "150ms", "reduced": "0ms", "none": "0ms" } }
+    }
+  },
+
+  "dropdown": {
+    "open-duration": {
+      "$type": "duration",
+      "$value": "200ms",
+      "$extensions": { "mode": { "full": "200ms", "reduced": "100ms", "none": "0ms" } }
+    },
+    "close-duration": {
+      "$type": "duration",
+      "$value": "150ms",
+      "$extensions": { "mode": { "full": "150ms", "reduced": "50ms", "none": "0ms" } }
+    }
+  },
+
+  "accordion": {
+    "expand-duration": {
+      "$type": "duration",
+      "$value": "300ms",
+      "$extensions": { "mode": { "full": "300ms", "reduced": "150ms", "none": "0ms" } }
+    },
+    "collapse-duration": {
+      "$type": "duration",
+      "$value": "250ms",
+      "$extensions": { "mode": { "full": "250ms", "reduced": "100ms", "none": "0ms" } }
+    }
+  },
+
+  "tabs": {
+    "indicator-duration": {
+      "$type": "duration",
+      "$value": "250ms",
+      "$extensions": { "mode": { "full": "250ms", "reduced": "0ms", "none": "0ms" } }
+    },
+    "content-fade-duration": {
+      "$type": "duration",
+      "$value": "150ms",
+      "$extensions": { "mode": { "full": "150ms", "reduced": "0ms", "none": "0ms" } }
+    }
+  },
+
+  "modal": {
+    "backdrop-fade-duration": {
+      "$type": "duration",
+      "$value": "200ms",
+      "$extensions": { "mode": { "full": "200ms", "reduced": "100ms", "none": "0ms" } }
+    },
+    "content-enter-duration": {
+      "$type": "duration",
+      "$value": "300ms",
+      "$extensions": { "mode": { "full": "300ms", "reduced": "150ms", "none": "0ms" } }
+    },
+    "content-exit-duration": {
+      "$type": "duration",
+      "$value": "200ms",
+      "$extensions": { "mode": { "full": "200ms", "reduced": "100ms", "none": "0ms" } }
+    }
+  },
+
+  "drawer": {
+    "slide-duration": {
+      "$type": "duration",
+      "$value": "350ms",
+      "$extensions": { "mode": { "full": "350ms", "reduced": "200ms", "none": "0ms" } }
+    }
+  },
+
+  "ripple": {
+    "enabled": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "duration": {
+      "$type": "duration",
+      "$value": "550ms",
+      "$extensions": { "mode": { "full": "550ms", "reduced": "0ms", "none": "0ms" } }
+    }
+  },
+
+  "page-transition": {
+    "enabled": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "duration": {
+      "$type": "duration",
+      "$value": "300ms",
+      "$extensions": { "mode": { "full": "300ms", "reduced": "0ms", "none": "0ms" } }
+    },
+    "type": {
+      "$type": "string",
+      "$value": "fade-slide",
+      "$extensions": { "mode": { "full": "fade-slide", "reduced": "fade", "none": "instant" } }
+    }
+  },
+
+  "stagger": {
+    "enabled": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "delay": {
+      "$type": "duration",
+      "$value": "50ms",
+      "$extensions": { "mode": { "full": "50ms", "reduced": "0ms", "none": "0ms" } }
+    },
+    "max-items": {
+      "$type": "number",
+      "$value": 10,
+      "$extensions": { "mode": { "full": 10, "reduced": 0, "none": 0 } }
+    }
+  },
+
+  "skeleton-loader": {
+    "wave-enabled": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "pulse-enabled": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": true, "none": false } }
+    }
+  },
+
+  "video": {
+    "autoplay": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "background-video": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    }
+  },
+
+  "hover-effects": {
+    "scale-enabled": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "lift-enabled": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "glow-enabled": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    }
+  },
+
+  "cursor": {
+    "custom-enabled": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "full": true, "reduced": false, "none": false } }
+    },
+    "trail-enabled": {
+      "$type": "boolean",
+      "$value": false,
+      "$extensions": { "mode": { "full": false, "reduced": false, "none": false } }
+    }
+  }
+}

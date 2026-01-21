@@ -1,0 +1,522 @@
+{
+  "$description": "Viewport collection - Responsive breakpoint modes: mobile, tablet, desktop",
+  "$extensions": {
+    "figma.collection": "Viewport",
+    "figma.modes": ["mobile", "tablet", "desktop"]
+  },
+
+  "breakpoint": {
+    "min": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$extensions": { "mode": { "mobile": "0px", "tablet": "640px", "desktop": "1024px" } }
+    },
+    "max": {
+      "$type": "dimension",
+      "$value": "639px",
+      "$extensions": { "mode": { "mobile": "639px", "tablet": "1023px", "desktop": "9999px" } }
+    }
+  },
+
+  "container": {
+    "max-width": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "768px", "desktop": "1280px" } }
+    },
+    "padding": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$extensions": { "mode": { "mobile": "16px", "tablet": "24px", "desktop": "32px" } }
+    }
+  },
+
+  "grid": {
+    "columns": {
+      "$type": "number",
+      "$value": 4,
+      "$extensions": { "mode": { "mobile": 4, "tablet": 8, "desktop": 12 } }
+    },
+    "gutter": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$extensions": { "mode": { "mobile": "16px", "tablet": "24px", "desktop": "32px" } }
+    },
+    "margin": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$extensions": { "mode": { "mobile": "16px", "tablet": "32px", "desktop": "48px" } }
+    },
+    "column-width": {
+      "$type": "dimension",
+      "$value": "auto",
+      "$extensions": { "mode": { "mobile": "auto", "tablet": "72px", "desktop": "80px" } }
+    }
+  },
+
+  "sidebar": {
+    "visible": {
+      "$type": "boolean",
+      "$value": false,
+      "$extensions": { "mode": { "mobile": false, "tablet": false, "desktop": true } }
+    },
+    "width": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$extensions": { "mode": { "mobile": "0px", "tablet": "72px", "desktop": "256px" } }
+    },
+    "collapsible": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "mobile": true, "tablet": true, "desktop": false } }
+    }
+  },
+
+  "header": {
+    "height": {
+      "$type": "dimension",
+      "$value": "56px",
+      "$extensions": { "mode": { "mobile": "56px", "tablet": "64px", "desktop": "72px" } }
+    },
+    "sticky": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "mobile": true, "tablet": true, "desktop": true } }
+    }
+  },
+
+  "footer": {
+    "height": {
+      "$type": "dimension",
+      "$value": "auto",
+      "$extensions": { "mode": { "mobile": "auto", "tablet": "auto", "desktop": "64px" } }
+    },
+    "layout": {
+      "$type": "string",
+      "$value": "stack",
+      "$extensions": { "mode": { "mobile": "stack", "tablet": "stack", "desktop": "inline" } }
+    }
+  },
+
+  "navigation": {
+    "type": {
+      "$type": "string",
+      "$value": "bottom-bar",
+      "$extensions": { "mode": { "mobile": "bottom-bar", "tablet": "rail", "desktop": "sidebar" } }
+    },
+    "position": {
+      "$type": "string",
+      "$value": "bottom",
+      "$extensions": { "mode": { "mobile": "bottom", "tablet": "left", "desktop": "left" } }
+    },
+    "height": {
+      "$type": "dimension",
+      "$value": "64px",
+      "$extensions": { "mode": { "mobile": "64px", "tablet": "100%", "desktop": "100%" } }
+    },
+    "width": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "72px", "desktop": "256px" } }
+    }
+  },
+
+  "content": {
+    "max-width": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "720px", "desktop": "960px" } }
+    },
+    "padding-x": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$extensions": { "mode": { "mobile": "16px", "tablet": "24px", "desktop": "32px" } }
+    },
+    "padding-y": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$extensions": { "mode": { "mobile": "16px", "tablet": "24px", "desktop": "40px" } }
+    }
+  },
+
+  "card-grid": {
+    "columns": {
+      "$type": "number",
+      "$value": 1,
+      "$extensions": { "mode": { "mobile": 1, "tablet": 2, "desktop": 3 } }
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$extensions": { "mode": { "mobile": "16px", "tablet": "20px", "desktop": "24px" } }
+    }
+  },
+
+  "product-grid": {
+    "columns": {
+      "$type": "number",
+      "$value": 2,
+      "$extensions": { "mode": { "mobile": 2, "tablet": 3, "desktop": 4 } }
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": "12px",
+      "$extensions": { "mode": { "mobile": "12px", "tablet": "16px", "desktop": "24px" } }
+    }
+  },
+
+  "gallery-grid": {
+    "columns": {
+      "$type": "number",
+      "$value": 2,
+      "$extensions": { "mode": { "mobile": 2, "tablet": 4, "desktop": 6 } }
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": "4px",
+      "$extensions": { "mode": { "mobile": "4px", "tablet": "8px", "desktop": "12px" } }
+    }
+  },
+
+  "typography": {
+    "scale-factor": {
+      "$type": "number",
+      "$value": 1,
+      "$extensions": { "mode": { "mobile": 1, "tablet": 1.05, "desktop": 1.125 } }
+    },
+    "hero-size": {
+      "$type": "dimension",
+      "$value": "32px",
+      "$extensions": { "mode": { "mobile": "32px", "tablet": "48px", "desktop": "64px" } }
+    },
+    "h1-size": {
+      "$type": "dimension",
+      "$value": "28px",
+      "$extensions": { "mode": { "mobile": "28px", "tablet": "36px", "desktop": "48px" } }
+    },
+    "h2-size": {
+      "$type": "dimension",
+      "$value": "24px",
+      "$extensions": { "mode": { "mobile": "24px", "tablet": "30px", "desktop": "36px" } }
+    },
+    "h3-size": {
+      "$type": "dimension",
+      "$value": "20px",
+      "$extensions": { "mode": { "mobile": "20px", "tablet": "24px", "desktop": "28px" } }
+    },
+    "h4-size": {
+      "$type": "dimension",
+      "$value": "18px",
+      "$extensions": { "mode": { "mobile": "18px", "tablet": "20px", "desktop": "22px" } }
+    },
+    "h5-size": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$extensions": { "mode": { "mobile": "16px", "tablet": "17px", "desktop": "18px" } }
+    },
+    "h6-size": {
+      "$type": "dimension",
+      "$value": "14px",
+      "$extensions": { "mode": { "mobile": "14px", "tablet": "15px", "desktop": "16px" } }
+    },
+    "body-size": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$extensions": { "mode": { "mobile": "16px", "tablet": "16px", "desktop": "16px" } }
+    },
+    "body-large-size": {
+      "$type": "dimension",
+      "$value": "18px",
+      "$extensions": { "mode": { "mobile": "18px", "tablet": "18px", "desktop": "20px" } }
+    },
+    "small-size": {
+      "$type": "dimension",
+      "$value": "14px",
+      "$extensions": { "mode": { "mobile": "14px", "tablet": "14px", "desktop": "14px" } }
+    },
+    "caption-size": {
+      "$type": "dimension",
+      "$value": "12px",
+      "$extensions": { "mode": { "mobile": "12px", "tablet": "12px", "desktop": "13px" } }
+    },
+    "line-height-heading": {
+      "$type": "number",
+      "$value": 1.2,
+      "$extensions": { "mode": { "mobile": 1.2, "tablet": 1.25, "desktop": 1.3 } }
+    },
+    "line-height-body": {
+      "$type": "number",
+      "$value": 1.5,
+      "$extensions": { "mode": { "mobile": 1.5, "tablet": 1.5, "desktop": 1.6 } }
+    },
+    "max-line-length": {
+      "$type": "dimension",
+      "$value": "65ch",
+      "$extensions": { "mode": { "mobile": "65ch", "tablet": "70ch", "desktop": "75ch" } }
+    }
+  },
+
+  "modal": {
+    "width": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "560px", "desktop": "640px" } }
+    },
+    "max-width": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "calc(100% - 48px)", "desktop": "calc(100% - 128px)" } }
+    },
+    "max-height": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "calc(100% - 96px)", "desktop": "calc(100% - 128px)" } }
+    },
+    "position": {
+      "$type": "string",
+      "$value": "fullscreen",
+      "$extensions": { "mode": { "mobile": "fullscreen", "tablet": "center", "desktop": "center" } }
+    },
+    "padding": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$extensions": { "mode": { "mobile": "16px", "tablet": "24px", "desktop": "32px" } }
+    }
+  },
+
+  "drawer": {
+    "width": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "400px", "desktop": "480px" } }
+    },
+    "max-width": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "80%", "desktop": "50%" } }
+    }
+  },
+
+  "dropdown": {
+    "max-height": {
+      "$type": "dimension",
+      "$value": "70vh",
+      "$extensions": { "mode": { "mobile": "70vh", "tablet": "400px", "desktop": "480px" } }
+    }
+  },
+
+  "table": {
+    "layout": {
+      "$type": "string",
+      "$value": "stack",
+      "$extensions": { "mode": { "mobile": "stack", "tablet": "scroll", "desktop": "fixed" } }
+    },
+    "min-column-width": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "120px", "desktop": "150px" } }
+    }
+  },
+
+  "form": {
+    "layout": {
+      "$type": "string",
+      "$value": "stack",
+      "$extensions": { "mode": { "mobile": "stack", "tablet": "stack", "desktop": "inline" } }
+    },
+    "label-width": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "100%", "desktop": "200px" } }
+    },
+    "field-width": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "100%", "desktop": "auto" } }
+    }
+  },
+
+  "split-view": {
+    "enabled": {
+      "$type": "boolean",
+      "$value": false,
+      "$extensions": { "mode": { "mobile": false, "tablet": true, "desktop": true } }
+    },
+    "list-width": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "320px", "desktop": "400px" } }
+    },
+    "detail-width": {
+      "$type": "dimension",
+      "$value": "100%",
+      "$extensions": { "mode": { "mobile": "100%", "tablet": "auto", "desktop": "auto" } }
+    }
+  },
+
+  "hero": {
+    "height": {
+      "$type": "dimension",
+      "$value": "50vh",
+      "$extensions": { "mode": { "mobile": "50vh", "tablet": "60vh", "desktop": "70vh" } }
+    },
+    "min-height": {
+      "$type": "dimension",
+      "$value": "320px",
+      "$extensions": { "mode": { "mobile": "320px", "tablet": "400px", "desktop": "500px" } }
+    },
+    "max-height": {
+      "$type": "dimension",
+      "$value": "600px",
+      "$extensions": { "mode": { "mobile": "600px", "tablet": "700px", "desktop": "800px" } }
+    }
+  },
+
+  "image": {
+    "aspect-ratio-hero": {
+      "$type": "string",
+      "$value": "16/9",
+      "$extensions": { "mode": { "mobile": "16/9", "tablet": "21/9", "desktop": "21/9" } }
+    },
+    "aspect-ratio-card": {
+      "$type": "string",
+      "$value": "4/3",
+      "$extensions": { "mode": { "mobile": "4/3", "tablet": "16/9", "desktop": "16/9" } }
+    },
+    "aspect-ratio-thumbnail": {
+      "$type": "string",
+      "$value": "1/1",
+      "$extensions": { "mode": { "mobile": "1/1", "tablet": "1/1", "desktop": "1/1" } }
+    }
+  },
+
+  "touch-target": {
+    "minimum-size": {
+      "$type": "dimension",
+      "$value": "44px",
+      "$extensions": { "mode": { "mobile": "44px", "tablet": "40px", "desktop": "32px" } }
+    },
+    "recommended-size": {
+      "$type": "dimension",
+      "$value": "48px",
+      "$extensions": { "mode": { "mobile": "48px", "tablet": "44px", "desktop": "40px" } }
+    }
+  },
+
+  "safe-area": {
+    "top": {
+      "$type": "dimension",
+      "$value": "env(safe-area-inset-top, 0px)",
+      "$extensions": { "mode": { "mobile": "env(safe-area-inset-top, 0px)", "tablet": "0px", "desktop": "0px" } }
+    },
+    "bottom": {
+      "$type": "dimension",
+      "$value": "env(safe-area-inset-bottom, 0px)",
+      "$extensions": { "mode": { "mobile": "env(safe-area-inset-bottom, 0px)", "tablet": "0px", "desktop": "0px" } }
+    },
+    "left": {
+      "$type": "dimension",
+      "$value": "env(safe-area-inset-left, 0px)",
+      "$extensions": { "mode": { "mobile": "env(safe-area-inset-left, 0px)", "tablet": "0px", "desktop": "0px" } }
+    },
+    "right": {
+      "$type": "dimension",
+      "$value": "env(safe-area-inset-right, 0px)",
+      "$extensions": { "mode": { "mobile": "env(safe-area-inset-right, 0px)", "tablet": "0px", "desktop": "0px" } }
+    }
+  },
+
+  "button-group": {
+    "layout": {
+      "$type": "string",
+      "$value": "stack",
+      "$extensions": { "mode": { "mobile": "stack", "tablet": "inline", "desktop": "inline" } }
+    },
+    "full-width": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "mobile": true, "tablet": false, "desktop": false } }
+    }
+  },
+
+  "pagination": {
+    "show-page-numbers": {
+      "$type": "boolean",
+      "$value": false,
+      "$extensions": { "mode": { "mobile": false, "tablet": true, "desktop": true } }
+    },
+    "max-visible-pages": {
+      "$type": "number",
+      "$value": 3,
+      "$extensions": { "mode": { "mobile": 3, "tablet": 5, "desktop": 7 } }
+    }
+  },
+
+  "tabs": {
+    "scrollable": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "mobile": true, "tablet": false, "desktop": false } }
+    },
+    "full-width": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "mobile": true, "tablet": false, "desktop": false } }
+    }
+  },
+
+  "stepper": {
+    "layout": {
+      "$type": "string",
+      "$value": "vertical",
+      "$extensions": { "mode": { "mobile": "vertical", "tablet": "horizontal", "desktop": "horizontal" } }
+    },
+    "show-labels": {
+      "$type": "boolean",
+      "$value": false,
+      "$extensions": { "mode": { "mobile": false, "tablet": true, "desktop": true } }
+    }
+  },
+
+  "breadcrumb": {
+    "visible": {
+      "$type": "boolean",
+      "$value": false,
+      "$extensions": { "mode": { "mobile": false, "tablet": true, "desktop": true } }
+    },
+    "max-items": {
+      "$type": "number",
+      "$value": 2,
+      "$extensions": { "mode": { "mobile": 2, "tablet": 4, "desktop": 6 } }
+    }
+  },
+
+  "tooltip": {
+    "enabled": {
+      "$type": "boolean",
+      "$value": false,
+      "$extensions": { "mode": { "mobile": false, "tablet": true, "desktop": true } }
+    }
+  },
+
+  "hover-states": {
+    "enabled": {
+      "$type": "boolean",
+      "$value": false,
+      "$extensions": { "mode": { "mobile": false, "tablet": true, "desktop": true } }
+    }
+  },
+
+  "scroll-behavior": {
+    "snap-enabled": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "mobile": true, "tablet": false, "desktop": false } }
+    },
+    "horizontal-scroll": {
+      "$type": "boolean",
+      "$value": true,
+      "$extensions": { "mode": { "mobile": true, "tablet": false, "desktop": false } }
+    }
+  }
+}

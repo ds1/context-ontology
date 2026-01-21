@@ -1,0 +1,383 @@
+{
+  "$description": "Theme collection - Color scheme modes: light, dark, dim",
+  "$extensions": {
+    "figma.collection": "Theme",
+    "figma.modes": ["light", "dark", "dim"]
+  },
+
+  "surface": {
+    "default": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$extensions": { "mode": { "light": "#ffffff", "dark": "#0a0a0a", "dim": "#1a1a1a" } }
+    },
+    "raised": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$extensions": { "mode": { "light": "#ffffff", "dark": "#141414", "dim": "#242424" } }
+    },
+    "overlay": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$extensions": { "mode": { "light": "#ffffff", "dark": "#1f1f1f", "dim": "#2e2e2e" } }
+    },
+    "sunken": {
+      "$type": "color",
+      "$value": "#f8f9fa",
+      "$extensions": { "mode": { "light": "#f8f9fa", "dark": "#050505", "dim": "#121212" } }
+    },
+    "subtle": {
+      "$type": "color",
+      "$value": "#f1f3f5",
+      "$extensions": { "mode": { "light": "#f1f3f5", "dark": "#1f1f1f", "dim": "#2a2a2a" } }
+    },
+    "muted": {
+      "$type": "color",
+      "$value": "#e9ecef",
+      "$extensions": { "mode": { "light": "#e9ecef", "dark": "#2a2a2a", "dim": "#353535" } }
+    },
+    "emphasis": {
+      "$type": "color",
+      "$value": "#dee2e6",
+      "$extensions": { "mode": { "light": "#dee2e6", "dark": "#353535", "dim": "#404040" } }
+    },
+    "inverse": {
+      "$type": "color",
+      "$value": "#212529",
+      "$extensions": { "mode": { "light": "#212529", "dark": "#f8f9fa", "dim": "#e9ecef" } }
+    }
+  },
+
+  "foreground": {
+    "default": {
+      "$type": "color",
+      "$value": "#212529",
+      "$extensions": { "mode": { "light": "#212529", "dark": "#ececec", "dim": "#d4d4d4" } }
+    },
+    "muted": {
+      "$type": "color",
+      "$value": "#495057",
+      "$extensions": { "mode": { "light": "#495057", "dark": "#a3a3a3", "dim": "#999999" } }
+    },
+    "subtle": {
+      "$type": "color",
+      "$value": "#6c757d",
+      "$extensions": { "mode": { "light": "#6c757d", "dark": "#737373", "dim": "#6b6b6b" } }
+    },
+    "disabled": {
+      "$type": "color",
+      "$value": "#adb5bd",
+      "$extensions": { "mode": { "light": "#adb5bd", "dark": "#525252", "dim": "#4a4a4a" } }
+    },
+    "inverse": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$extensions": { "mode": { "light": "#ffffff", "dark": "#0a0a0a", "dim": "#1a1a1a" } }
+    },
+    "on-accent": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$extensions": { "mode": { "light": "#ffffff", "dark": "#ffffff", "dim": "#ffffff" } }
+    },
+    "on-success": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$extensions": { "mode": { "light": "#ffffff", "dark": "#ffffff", "dim": "#ffffff" } }
+    },
+    "on-warning": {
+      "$type": "color",
+      "$value": "#000000",
+      "$extensions": { "mode": { "light": "#000000", "dark": "#000000", "dim": "#000000" } }
+    },
+    "on-error": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$extensions": { "mode": { "light": "#ffffff", "dark": "#ffffff", "dim": "#ffffff" } }
+    }
+  },
+
+  "border": {
+    "default": {
+      "$type": "color",
+      "$value": "#dee2e6",
+      "$extensions": { "mode": { "light": "#dee2e6", "dark": "#2e2e2e", "dim": "#3d3d3d" } }
+    },
+    "muted": {
+      "$type": "color",
+      "$value": "#e9ecef",
+      "$extensions": { "mode": { "light": "#e9ecef", "dark": "#232323", "dim": "#303030" } }
+    },
+    "subtle": {
+      "$type": "color",
+      "$value": "#f1f3f5",
+      "$extensions": { "mode": { "light": "#f1f3f5", "dark": "#1a1a1a", "dim": "#262626" } }
+    },
+    "emphasis": {
+      "$type": "color",
+      "$value": "#ced4da",
+      "$extensions": { "mode": { "light": "#ced4da", "dark": "#404040", "dim": "#4d4d4d" } }
+    },
+    "inverse": {
+      "$type": "color",
+      "$value": "#343a40",
+      "$extensions": { "mode": { "light": "#343a40", "dark": "#d4d4d4", "dim": "#c4c4c4" } }
+    }
+  },
+
+  "accent": {
+    "default": {
+      "$type": "color",
+      "$value": "#2563eb",
+      "$extensions": { "mode": { "light": "#2563eb", "dark": "#3b82f6", "dim": "#60a5fa" } }
+    },
+    "hover": {
+      "$type": "color",
+      "$value": "#1d4ed8",
+      "$extensions": { "mode": { "light": "#1d4ed8", "dark": "#2563eb", "dim": "#3b82f6" } }
+    },
+    "active": {
+      "$type": "color",
+      "$value": "#1e40af",
+      "$extensions": { "mode": { "light": "#1e40af", "dark": "#1d4ed8", "dim": "#2563eb" } }
+    },
+    "subtle": {
+      "$type": "color",
+      "$value": "#dbeafe",
+      "$extensions": { "mode": { "light": "#dbeafe", "dark": "#1e3a5f", "dim": "#1e3a5f" } }
+    },
+    "muted": {
+      "$type": "color",
+      "$value": "#bfdbfe",
+      "$extensions": { "mode": { "light": "#bfdbfe", "dark": "#1e40af", "dim": "#1d4ed8" } }
+    }
+  },
+
+  "success": {
+    "default": {
+      "$type": "color",
+      "$value": "#16a34a",
+      "$extensions": { "mode": { "light": "#16a34a", "dark": "#22c55e", "dim": "#4ade80" } }
+    },
+    "hover": {
+      "$type": "color",
+      "$value": "#15803d",
+      "$extensions": { "mode": { "light": "#15803d", "dark": "#16a34a", "dim": "#22c55e" } }
+    },
+    "active": {
+      "$type": "color",
+      "$value": "#166534",
+      "$extensions": { "mode": { "light": "#166534", "dark": "#15803d", "dim": "#16a34a" } }
+    },
+    "subtle": {
+      "$type": "color",
+      "$value": "#dcfce7",
+      "$extensions": { "mode": { "light": "#dcfce7", "dark": "#14532d", "dim": "#166534" } }
+    },
+    "muted": {
+      "$type": "color",
+      "$value": "#bbf7d0",
+      "$extensions": { "mode": { "light": "#bbf7d0", "dark": "#166534", "dim": "#15803d" } }
+    }
+  },
+
+  "warning": {
+    "default": {
+      "$type": "color",
+      "$value": "#ca8a04",
+      "$extensions": { "mode": { "light": "#ca8a04", "dark": "#eab308", "dim": "#facc15" } }
+    },
+    "hover": {
+      "$type": "color",
+      "$value": "#a16207",
+      "$extensions": { "mode": { "light": "#a16207", "dark": "#ca8a04", "dim": "#eab308" } }
+    },
+    "active": {
+      "$type": "color",
+      "$value": "#854d0e",
+      "$extensions": { "mode": { "light": "#854d0e", "dark": "#a16207", "dim": "#ca8a04" } }
+    },
+    "subtle": {
+      "$type": "color",
+      "$value": "#fef9c3",
+      "$extensions": { "mode": { "light": "#fef9c3", "dark": "#422006", "dim": "#713f12" } }
+    },
+    "muted": {
+      "$type": "color",
+      "$value": "#fef08a",
+      "$extensions": { "mode": { "light": "#fef08a", "dark": "#713f12", "dim": "#854d0e" } }
+    }
+  },
+
+  "error": {
+    "default": {
+      "$type": "color",
+      "$value": "#dc2626",
+      "$extensions": { "mode": { "light": "#dc2626", "dark": "#ef4444", "dim": "#f87171" } }
+    },
+    "hover": {
+      "$type": "color",
+      "$value": "#b91c1c",
+      "$extensions": { "mode": { "light": "#b91c1c", "dark": "#dc2626", "dim": "#ef4444" } }
+    },
+    "active": {
+      "$type": "color",
+      "$value": "#991b1b",
+      "$extensions": { "mode": { "light": "#991b1b", "dark": "#b91c1c", "dim": "#dc2626" } }
+    },
+    "subtle": {
+      "$type": "color",
+      "$value": "#fee2e2",
+      "$extensions": { "mode": { "light": "#fee2e2", "dark": "#450a0a", "dim": "#7f1d1d" } }
+    },
+    "muted": {
+      "$type": "color",
+      "$value": "#fecaca",
+      "$extensions": { "mode": { "light": "#fecaca", "dark": "#7f1d1d", "dim": "#991b1b" } }
+    }
+  },
+
+  "info": {
+    "default": {
+      "$type": "color",
+      "$value": "#0891b2",
+      "$extensions": { "mode": { "light": "#0891b2", "dark": "#06b6d4", "dim": "#22d3ee" } }
+    },
+    "hover": {
+      "$type": "color",
+      "$value": "#0e7490",
+      "$extensions": { "mode": { "light": "#0e7490", "dark": "#0891b2", "dim": "#06b6d4" } }
+    },
+    "active": {
+      "$type": "color",
+      "$value": "#155e75",
+      "$extensions": { "mode": { "light": "#155e75", "dark": "#0e7490", "dim": "#0891b2" } }
+    },
+    "subtle": {
+      "$type": "color",
+      "$value": "#cffafe",
+      "$extensions": { "mode": { "light": "#cffafe", "dark": "#083344", "dim": "#164e63" } }
+    },
+    "muted": {
+      "$type": "color",
+      "$value": "#a5f3fc",
+      "$extensions": { "mode": { "light": "#a5f3fc", "dark": "#164e63", "dim": "#155e75" } }
+    }
+  },
+
+  "neutral": {
+    "50": {
+      "$type": "color",
+      "$value": "#fafafa",
+      "$extensions": { "mode": { "light": "#fafafa", "dark": "#0a0a0a", "dim": "#171717" } }
+    },
+    "100": {
+      "$type": "color",
+      "$value": "#f5f5f5",
+      "$extensions": { "mode": { "light": "#f5f5f5", "dark": "#171717", "dim": "#1f1f1f" } }
+    },
+    "200": {
+      "$type": "color",
+      "$value": "#e5e5e5",
+      "$extensions": { "mode": { "light": "#e5e5e5", "dark": "#262626", "dim": "#2e2e2e" } }
+    },
+    "300": {
+      "$type": "color",
+      "$value": "#d4d4d4",
+      "$extensions": { "mode": { "light": "#d4d4d4", "dark": "#404040", "dim": "#454545" } }
+    },
+    "400": {
+      "$type": "color",
+      "$value": "#a3a3a3",
+      "$extensions": { "mode": { "light": "#a3a3a3", "dark": "#525252", "dim": "#5c5c5c" } }
+    },
+    "500": {
+      "$type": "color",
+      "$value": "#737373",
+      "$extensions": { "mode": { "light": "#737373", "dark": "#737373", "dim": "#737373" } }
+    },
+    "600": {
+      "$type": "color",
+      "$value": "#525252",
+      "$extensions": { "mode": { "light": "#525252", "dark": "#a3a3a3", "dim": "#999999" } }
+    },
+    "700": {
+      "$type": "color",
+      "$value": "#404040",
+      "$extensions": { "mode": { "light": "#404040", "dark": "#d4d4d4", "dim": "#b8b8b8" } }
+    },
+    "800": {
+      "$type": "color",
+      "$value": "#262626",
+      "$extensions": { "mode": { "light": "#262626", "dark": "#e5e5e5", "dim": "#d4d4d4" } }
+    },
+    "900": {
+      "$type": "color",
+      "$value": "#171717",
+      "$extensions": { "mode": { "light": "#171717", "dark": "#f5f5f5", "dim": "#e5e5e5" } }
+    },
+    "950": {
+      "$type": "color",
+      "$value": "#0a0a0a",
+      "$extensions": { "mode": { "light": "#0a0a0a", "dark": "#fafafa", "dim": "#f5f5f5" } }
+    }
+  },
+
+  "overlay": {
+    "light": {
+      "$type": "color",
+      "$value": "rgba(255, 255, 255, 0.8)",
+      "$extensions": { "mode": { "light": "rgba(255, 255, 255, 0.8)", "dark": "rgba(255, 255, 255, 0.1)", "dim": "rgba(255, 255, 255, 0.15)" } }
+    },
+    "dark": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.5)",
+      "$extensions": { "mode": { "light": "rgba(0, 0, 0, 0.5)", "dark": "rgba(0, 0, 0, 0.7)", "dim": "rgba(0, 0, 0, 0.6)" } }
+    },
+    "scrim": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.4)",
+      "$extensions": { "mode": { "light": "rgba(0, 0, 0, 0.4)", "dark": "rgba(0, 0, 0, 0.6)", "dim": "rgba(0, 0, 0, 0.5)" } }
+    },
+    "hover": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.04)",
+      "$extensions": { "mode": { "light": "rgba(0, 0, 0, 0.04)", "dark": "rgba(255, 255, 255, 0.08)", "dim": "rgba(255, 255, 255, 0.06)" } }
+    },
+    "active": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.08)",
+      "$extensions": { "mode": { "light": "rgba(0, 0, 0, 0.08)", "dark": "rgba(255, 255, 255, 0.12)", "dim": "rgba(255, 255, 255, 0.10)" } }
+    },
+    "selected": {
+      "$type": "color",
+      "$value": "rgba(37, 99, 235, 0.1)",
+      "$extensions": { "mode": { "light": "rgba(37, 99, 235, 0.1)", "dark": "rgba(59, 130, 246, 0.2)", "dim": "rgba(96, 165, 250, 0.15)" } }
+    }
+  },
+
+  "focus": {
+    "ring": {
+      "$type": "color",
+      "$value": "#2563eb",
+      "$extensions": { "mode": { "light": "#2563eb", "dark": "#3b82f6", "dim": "#60a5fa" } }
+    },
+    "ring-offset": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$extensions": { "mode": { "light": "#ffffff", "dark": "#0a0a0a", "dim": "#1a1a1a" } }
+    }
+  },
+
+  "shadow": {
+    "color": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.1)",
+      "$extensions": { "mode": { "light": "rgba(0, 0, 0, 0.1)", "dark": "rgba(0, 0, 0, 0.5)", "dim": "rgba(0, 0, 0, 0.4)" } }
+    },
+    "color-strong": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.2)",
+      "$extensions": { "mode": { "light": "rgba(0, 0, 0, 0.2)", "dark": "rgba(0, 0, 0, 0.7)", "dim": "rgba(0, 0, 0, 0.6)" } }
+    }
+  }
+}

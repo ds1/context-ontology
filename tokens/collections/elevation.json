@@ -1,0 +1,436 @@
+{
+  "$description": "Elevation collection - Surface level modes: base, raised, elevated",
+  "$extensions": {
+    "figma.collection": "Elevation",
+    "figma.modes": ["base", "raised", "elevated"]
+  },
+
+  "z-index": {
+    "deep": {
+      "$type": "number",
+      "$value": -1,
+      "$extensions": { "mode": { "base": -1, "raised": -1, "elevated": -1 } }
+    },
+    "base": {
+      "$type": "number",
+      "$value": 0,
+      "$extensions": { "mode": { "base": 0, "raised": 0, "elevated": 0 } }
+    },
+    "raised": {
+      "$type": "number",
+      "$value": 10,
+      "$extensions": { "mode": { "base": 1, "raised": 10, "elevated": 100 } }
+    },
+    "dropdown": {
+      "$type": "number",
+      "$value": 100,
+      "$extensions": { "mode": { "base": 10, "raised": 100, "elevated": 1000 } }
+    },
+    "sticky": {
+      "$type": "number",
+      "$value": 200,
+      "$extensions": { "mode": { "base": 20, "raised": 200, "elevated": 2000 } }
+    },
+    "fixed": {
+      "$type": "number",
+      "$value": 300,
+      "$extensions": { "mode": { "base": 30, "raised": 300, "elevated": 3000 } }
+    },
+    "overlay": {
+      "$type": "number",
+      "$value": 400,
+      "$extensions": { "mode": { "base": 40, "raised": 400, "elevated": 4000 } }
+    },
+    "modal": {
+      "$type": "number",
+      "$value": 500,
+      "$extensions": { "mode": { "base": 50, "raised": 500, "elevated": 5000 } }
+    },
+    "popover": {
+      "$type": "number",
+      "$value": 600,
+      "$extensions": { "mode": { "base": 60, "raised": 600, "elevated": 6000 } }
+    },
+    "tooltip": {
+      "$type": "number",
+      "$value": 700,
+      "$extensions": { "mode": { "base": 70, "raised": 700, "elevated": 7000 } }
+    },
+    "notification": {
+      "$type": "number",
+      "$value": 800,
+      "$extensions": { "mode": { "base": 80, "raised": 800, "elevated": 8000 } }
+    },
+    "max": {
+      "$type": "number",
+      "$value": 9999,
+      "$extensions": { "mode": { "base": 999, "raised": 9999, "elevated": 99999 } }
+    }
+  },
+
+  "shadow": {
+    "none": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0)",
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "0px",
+        "spread": "0px"
+      },
+      "$extensions": {
+        "mode": {
+          "base": { "color": "rgba(0, 0, 0, 0)", "offsetX": "0px", "offsetY": "0px", "blur": "0px", "spread": "0px" },
+          "raised": { "color": "rgba(0, 0, 0, 0)", "offsetX": "0px", "offsetY": "0px", "blur": "0px", "spread": "0px" },
+          "elevated": { "color": "rgba(0, 0, 0, 0)", "offsetX": "0px", "offsetY": "0px", "blur": "0px", "spread": "0px" }
+        }
+      }
+    },
+    "xs": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.05)",
+        "offsetX": "0px",
+        "offsetY": "1px",
+        "blur": "2px",
+        "spread": "0px"
+      },
+      "$extensions": {
+        "mode": {
+          "base": { "color": "rgba(0, 0, 0, 0.03)", "offsetX": "0px", "offsetY": "1px", "blur": "1px", "spread": "0px" },
+          "raised": { "color": "rgba(0, 0, 0, 0.05)", "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px" },
+          "elevated": { "color": "rgba(0, 0, 0, 0.08)", "offsetX": "0px", "offsetY": "2px", "blur": "4px", "spread": "0px" }
+        }
+      }
+    },
+    "sm": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.06)",
+        "offsetX": "0px",
+        "offsetY": "2px",
+        "blur": "4px",
+        "spread": "-1px"
+      },
+      "$extensions": {
+        "mode": {
+          "base": { "color": "rgba(0, 0, 0, 0.04)", "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px" },
+          "raised": { "color": "rgba(0, 0, 0, 0.06)", "offsetX": "0px", "offsetY": "2px", "blur": "4px", "spread": "-1px" },
+          "elevated": { "color": "rgba(0, 0, 0, 0.1)", "offsetX": "0px", "offsetY": "4px", "blur": "8px", "spread": "-2px" }
+        }
+      }
+    },
+    "md": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.1)",
+        "offsetX": "0px",
+        "offsetY": "4px",
+        "blur": "8px",
+        "spread": "-2px"
+      },
+      "$extensions": {
+        "mode": {
+          "base": { "color": "rgba(0, 0, 0, 0.06)", "offsetX": "0px", "offsetY": "2px", "blur": "4px", "spread": "-1px" },
+          "raised": { "color": "rgba(0, 0, 0, 0.1)", "offsetX": "0px", "offsetY": "4px", "blur": "8px", "spread": "-2px" },
+          "elevated": { "color": "rgba(0, 0, 0, 0.15)", "offsetX": "0px", "offsetY": "8px", "blur": "16px", "spread": "-4px" }
+        }
+      }
+    },
+    "lg": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.12)",
+        "offsetX": "0px",
+        "offsetY": "8px",
+        "blur": "16px",
+        "spread": "-4px"
+      },
+      "$extensions": {
+        "mode": {
+          "base": { "color": "rgba(0, 0, 0, 0.08)", "offsetX": "0px", "offsetY": "4px", "blur": "8px", "spread": "-2px" },
+          "raised": { "color": "rgba(0, 0, 0, 0.12)", "offsetX": "0px", "offsetY": "8px", "blur": "16px", "spread": "-4px" },
+          "elevated": { "color": "rgba(0, 0, 0, 0.18)", "offsetX": "0px", "offsetY": "16px", "blur": "32px", "spread": "-8px" }
+        }
+      }
+    },
+    "xl": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.15)",
+        "offsetX": "0px",
+        "offsetY": "16px",
+        "blur": "32px",
+        "spread": "-8px"
+      },
+      "$extensions": {
+        "mode": {
+          "base": { "color": "rgba(0, 0, 0, 0.1)", "offsetX": "0px", "offsetY": "8px", "blur": "16px", "spread": "-4px" },
+          "raised": { "color": "rgba(0, 0, 0, 0.15)", "offsetX": "0px", "offsetY": "16px", "blur": "32px", "spread": "-8px" },
+          "elevated": { "color": "rgba(0, 0, 0, 0.22)", "offsetX": "0px", "offsetY": "24px", "blur": "48px", "spread": "-12px" }
+        }
+      }
+    },
+    "2xl": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.2)",
+        "offsetX": "0px",
+        "offsetY": "24px",
+        "blur": "48px",
+        "spread": "-12px"
+      },
+      "$extensions": {
+        "mode": {
+          "base": { "color": "rgba(0, 0, 0, 0.12)", "offsetX": "0px", "offsetY": "12px", "blur": "24px", "spread": "-6px" },
+          "raised": { "color": "rgba(0, 0, 0, 0.2)", "offsetX": "0px", "offsetY": "24px", "blur": "48px", "spread": "-12px" },
+          "elevated": { "color": "rgba(0, 0, 0, 0.28)", "offsetX": "0px", "offsetY": "32px", "blur": "64px", "spread": "-16px" }
+        }
+      }
+    },
+    "inner": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.06)",
+        "offsetX": "0px",
+        "offsetY": "2px",
+        "blur": "4px",
+        "spread": "0px",
+        "inset": true
+      },
+      "$extensions": {
+        "mode": {
+          "base": { "color": "rgba(0, 0, 0, 0.04)", "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px", "inset": true },
+          "raised": { "color": "rgba(0, 0, 0, 0.06)", "offsetX": "0px", "offsetY": "2px", "blur": "4px", "spread": "0px", "inset": true },
+          "elevated": { "color": "rgba(0, 0, 0, 0.1)", "offsetX": "0px", "offsetY": "4px", "blur": "8px", "spread": "0px", "inset": true }
+        }
+      }
+    }
+  },
+
+  "surface": {
+    "background": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$extensions": { "mode": { "base": "#f8f9fa", "raised": "#ffffff", "elevated": "#ffffff" } }
+    },
+    "border-visible": {
+      "$type": "boolean",
+      "$value": false,
+      "$extensions": { "mode": { "base": true, "raised": false, "elevated": false } }
+    },
+    "border-color": {
+      "$type": "color",
+      "$value": "#dee2e6",
+      "$extensions": { "mode": { "base": "#dee2e6", "raised": "transparent", "elevated": "transparent" } }
+    },
+    "blur-amount": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$extensions": { "mode": { "base": "0px", "raised": "0px", "elevated": "8px" } }
+    }
+  },
+
+  "card": {
+    "shadow": {
+      "$type": "string",
+      "$value": "sm",
+      "$extensions": { "mode": { "base": "none", "raised": "sm", "elevated": "lg" } }
+    },
+    "hover-shadow": {
+      "$type": "string",
+      "$value": "md",
+      "$extensions": { "mode": { "base": "xs", "raised": "md", "elevated": "xl" } }
+    },
+    "border-width": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$extensions": { "mode": { "base": "1px", "raised": "0px", "elevated": "0px" } }
+    }
+  },
+
+  "button": {
+    "shadow": {
+      "$type": "string",
+      "$value": "xs",
+      "$extensions": { "mode": { "base": "none", "raised": "xs", "elevated": "sm" } }
+    },
+    "hover-shadow": {
+      "$type": "string",
+      "$value": "sm",
+      "$extensions": { "mode": { "base": "none", "raised": "sm", "elevated": "md" } }
+    },
+    "active-shadow": {
+      "$type": "string",
+      "$value": "inner",
+      "$extensions": { "mode": { "base": "inner", "raised": "inner", "elevated": "inner" } }
+    }
+  },
+
+  "input": {
+    "shadow": {
+      "$type": "string",
+      "$value": "inner",
+      "$extensions": { "mode": { "base": "none", "raised": "inner", "elevated": "inner" } }
+    },
+    "focus-shadow": {
+      "$type": "string",
+      "$value": "xs",
+      "$extensions": { "mode": { "base": "none", "raised": "xs", "elevated": "sm" } }
+    }
+  },
+
+  "dropdown": {
+    "shadow": {
+      "$type": "string",
+      "$value": "md",
+      "$extensions": { "mode": { "base": "sm", "raised": "md", "elevated": "xl" } }
+    }
+  },
+
+  "modal": {
+    "shadow": {
+      "$type": "string",
+      "$value": "xl",
+      "$extensions": { "mode": { "base": "lg", "raised": "xl", "elevated": "2xl" } }
+    },
+    "backdrop-blur": {
+      "$type": "dimension",
+      "$value": "4px",
+      "$extensions": { "mode": { "base": "0px", "raised": "4px", "elevated": "12px" } }
+    }
+  },
+
+  "tooltip": {
+    "shadow": {
+      "$type": "string",
+      "$value": "sm",
+      "$extensions": { "mode": { "base": "xs", "raised": "sm", "elevated": "md" } }
+    }
+  },
+
+  "popover": {
+    "shadow": {
+      "$type": "string",
+      "$value": "lg",
+      "$extensions": { "mode": { "base": "md", "raised": "lg", "elevated": "xl" } }
+    }
+  },
+
+  "sidebar": {
+    "shadow": {
+      "$type": "string",
+      "$value": "md",
+      "$extensions": { "mode": { "base": "none", "raised": "md", "elevated": "lg" } }
+    }
+  },
+
+  "navbar": {
+    "shadow": {
+      "$type": "string",
+      "$value": "sm",
+      "$extensions": { "mode": { "base": "none", "raised": "sm", "elevated": "md" } }
+    },
+    "blur": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$extensions": { "mode": { "base": "0px", "raised": "0px", "elevated": "8px" } }
+    }
+  },
+
+  "floating-action": {
+    "shadow": {
+      "$type": "string",
+      "$value": "lg",
+      "$extensions": { "mode": { "base": "md", "raised": "lg", "elevated": "xl" } }
+    },
+    "hover-shadow": {
+      "$type": "string",
+      "$value": "xl",
+      "$extensions": { "mode": { "base": "lg", "raised": "xl", "elevated": "2xl" } }
+    }
+  },
+
+  "toast": {
+    "shadow": {
+      "$type": "string",
+      "$value": "lg",
+      "$extensions": { "mode": { "base": "md", "raised": "lg", "elevated": "xl" } }
+    }
+  },
+
+  "image": {
+    "shadow": {
+      "$type": "string",
+      "$value": "sm",
+      "$extensions": { "mode": { "base": "none", "raised": "sm", "elevated": "md" } }
+    },
+    "hover-shadow": {
+      "$type": "string",
+      "$value": "md",
+      "$extensions": { "mode": { "base": "sm", "raised": "md", "elevated": "lg" } }
+    }
+  },
+
+  "avatar": {
+    "ring-width": {
+      "$type": "dimension",
+      "$value": "2px",
+      "$extensions": { "mode": { "base": "2px", "raised": "2px", "elevated": "3px" } }
+    },
+    "shadow": {
+      "$type": "string",
+      "$value": "sm",
+      "$extensions": { "mode": { "base": "none", "raised": "sm", "elevated": "md" } }
+    }
+  },
+
+  "divider": {
+    "style": {
+      "$type": "string",
+      "$value": "solid",
+      "$extensions": { "mode": { "base": "solid", "raised": "solid", "elevated": "solid" } }
+    },
+    "shadow": {
+      "$type": "boolean",
+      "$value": false,
+      "$extensions": { "mode": { "base": false, "raised": false, "elevated": true } }
+    }
+  },
+
+  "glass": {
+    "enabled": {
+      "$type": "boolean",
+      "$value": false,
+      "$extensions": { "mode": { "base": false, "raised": false, "elevated": true } }
+    },
+    "blur": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$extensions": { "mode": { "base": "0px", "raised": "0px", "elevated": "16px" } }
+    },
+    "saturation": {
+      "$type": "number",
+      "$value": 1,
+      "$extensions": { "mode": { "base": 1, "raised": 1, "elevated": 1.8 } }
+    },
+    "background-opacity": {
+      "$type": "number",
+      "$value": 1,
+      "$extensions": { "mode": { "base": 1, "raised": 1, "elevated": 0.7 } }
+    }
+  },
+
+  "layer": {
+    "overlap-offset": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$extensions": { "mode": { "base": "0px", "raised": "-4px", "elevated": "-8px" } }
+    },
+    "stack-gap": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$extensions": { "mode": { "base": "0px", "raised": "2px", "elevated": "4px" } }
+    }
+  }
+}

@@ -1,128 +1,285 @@
 {
-  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$description": "Design Token Context Ontology - Manifest for multi-dimensional token collections",
+  "version": "2.0.0",
   "name": "Design Token Context Ontology",
-  "version": "1.0.0",
-  "description": "Comprehensive context ontology for multi-dimensional token resolution",
 
-  "layers": {
-    "context": {
-      "description": "Environment layer - detected automatically, read-only",
-      "files": [
-        "context/appearance.json",
-        "context/density.json",
-        "context/viewport.json",
-        "context/container.json",
-        "context/accessibility.json",
-        "context/locale.json",
-        "context/platform.json",
-        "context/types.json"
-      ]
+  "collections": [
+    {
+      "name": "Theme",
+      "file": "collections/theme.json",
+      "description": "Color scheme modes for light, dark, and dim themes",
+      "modes": ["light", "dark", "dim"],
+      "defaultMode": "light",
+      "category": "appearance",
+      "volatility": "semi-stable",
+      "detection": "prefers-color-scheme, user-preference"
     },
-    "preference": {
-      "description": "User settings layer - user-controllable, system-detectable",
-      "files": [
-        "preference/appearance.json",
-        "preference/density.json",
-        "preference/accessibility.json"
-      ]
+    {
+      "name": "Density",
+      "file": "collections/density.json",
+      "description": "Layout density modes for spacing, sizing, and touch targets",
+      "modes": ["compact", "comfortable", "spacious"],
+      "defaultMode": "comfortable",
+      "category": "density",
+      "volatility": "stable",
+      "detection": "pointer-type, user-preference"
     },
-    "semantic": {
-      "description": "Design intent layer - author-defined, context-independent",
-      "files": [
-        "semantic/color.json",
-        "semantic/typography.json",
-        "semantic/spacing.json",
-        "semantic/elevation.json",
-        "semantic/status.json",
-        "semantic/emphasis.json"
-      ]
+    {
+      "name": "Viewport",
+      "file": "collections/viewport.json",
+      "description": "Responsive breakpoint modes for mobile, tablet, and desktop layouts",
+      "modes": ["mobile", "tablet", "desktop"],
+      "defaultMode": "desktop",
+      "category": "viewport",
+      "volatility": "volatile",
+      "detection": "viewport-width, container-width"
     },
-    "state": {
-      "description": "Interaction layer - runtime-dynamic, composable",
-      "files": [
-        "state/interaction.json",
-        "state/combinable.json"
-      ]
+    {
+      "name": "Contrast",
+      "file": "collections/contrast.json",
+      "description": "Accessibility contrast modes for standard, high, and forced contrast",
+      "modes": ["standard", "high", "forced"],
+      "defaultMode": "standard",
+      "category": "accessibility",
+      "volatility": "semi-stable",
+      "detection": "prefers-contrast, forced-colors"
     },
-    "component": {
-      "description": "Implementation layer - references semantic layer only",
-      "files": [
-        "component/button.json"
-      ]
+    {
+      "name": "Motion",
+      "file": "collections/motion.json",
+      "description": "Animation preference modes for full, reduced, and no motion",
+      "modes": ["full", "reduced", "none"],
+      "defaultMode": "full",
+      "category": "accessibility",
+      "volatility": "stable",
+      "detection": "prefers-reduced-motion, user-preference"
+    },
+    {
+      "name": "Elevation",
+      "file": "collections/elevation.json",
+      "description": "Surface elevation modes for flat, raised, and elevated UI",
+      "modes": ["base", "raised", "elevated"],
+      "defaultMode": "raised",
+      "category": "elevation",
+      "volatility": "stable",
+      "detection": "container-context, user-preference"
+    },
+    {
+      "name": "Typography",
+      "file": "collections/typography.json",
+      "description": "Typography style modes for default, editorial, and technical content",
+      "modes": ["default", "editorial", "technical"],
+      "defaultMode": "default",
+      "category": "semantic",
+      "volatility": "stable",
+      "detection": "content-type, user-preference"
+    },
+    {
+      "name": "State",
+      "file": "collections/state.json",
+      "description": "Interaction state modes for rest, hover, active, and disabled states",
+      "modes": ["rest", "hover", "active", "disabled"],
+      "defaultMode": "rest",
+      "category": "interaction",
+      "volatility": "volatile",
+      "detection": "pointer-state, element-state"
+    },
+    {
+      "name": "Brand",
+      "file": "collections/brand.json",
+      "description": "Brand identity modes for multi-brand or white-label support",
+      "modes": ["primary", "secondary", "partner"],
+      "defaultMode": "primary",
+      "category": "semantic",
+      "volatility": "immutable",
+      "detection": "configuration, runtime-context"
+    }
+  ],
+
+  "figma": {
+    "pluginCompatibility": "gitfig",
+    "variableCollectionMapping": {
+      "Theme": "collections/theme.json",
+      "Density": "collections/density.json",
+      "Viewport": "collections/viewport.json",
+      "Contrast": "collections/contrast.json",
+      "Motion": "collections/motion.json",
+      "Elevation": "collections/elevation.json",
+      "Typography": "collections/typography.json",
+      "State": "collections/state.json",
+      "Brand": "collections/brand.json"
+    },
+    "modeExtensionKey": "mode",
+    "collectionExtensionKey": "figma.collection",
+    "modesExtensionKey": "figma.modes"
+  },
+
+  "styleDictionary": {
+    "source": ["collections/*.json"],
+    "platforms": {
+      "css": {
+        "transformGroup": "css",
+        "buildPath": "dist/css/",
+        "files": [
+          {
+            "destination": "tokens.css",
+            "format": "css/variables"
+          }
+        ]
+      },
+      "scss": {
+        "transformGroup": "scss",
+        "buildPath": "dist/scss/",
+        "files": [
+          {
+            "destination": "_tokens.scss",
+            "format": "scss/variables"
+          }
+        ]
+      },
+      "js": {
+        "transformGroup": "js",
+        "buildPath": "dist/js/",
+        "files": [
+          {
+            "destination": "tokens.js",
+            "format": "javascript/es6"
+          }
+        ]
+      },
+      "json": {
+        "transformGroup": "web",
+        "buildPath": "dist/json/",
+        "files": [
+          {
+            "destination": "tokens.json",
+            "format": "json/flat"
+          }
+        ]
+      }
     }
   },
 
-  "statistics": {
-    "total_files": 19,
-    "context_dimensions": 93,
-    "context_types": 12,
-    "semantic_tokens": 150,
-    "state_tokens": 45,
-    "component_tokens": 35
-  },
-
-  "gitfig": {
-    "description": "GitFig plugin integration configuration",
-    "format": "w3c",
-    "suggested_mappings": [
+  "contextResolution": {
+    "precedenceOrder": [
+      "accessibility-overrides",
+      "explicit-declarations",
+      "context-type",
+      "inherited-context",
+      "platform-defaults",
+      "system-defaults"
+    ],
+    "crossCategoryDependencies": [
       {
-        "file_path": "semantic/color.json",
-        "target_type": "variables",
-        "target_name": "Colors"
+        "source": "contrast.forced",
+        "affects": ["theme", "elevation"],
+        "rule": "Forces simplified color scheme and flat elevation"
       },
       {
-        "file_path": "semantic/typography.json",
-        "target_type": "variables",
-        "target_name": "Typography"
+        "source": "motion.none",
+        "affects": ["state"],
+        "rule": "Disables transition animations on state changes"
       },
       {
-        "file_path": "semantic/spacing.json",
-        "target_type": "variables",
-        "target_name": "Spacing"
+        "source": "viewport.mobile",
+        "affects": ["density", "typography"],
+        "rule": "May influence default density and typography scale"
       },
       {
-        "file_path": "semantic/elevation.json",
-        "target_type": "variables",
-        "target_name": "Elevation"
-      },
-      {
-        "file_path": "semantic/status.json",
-        "target_type": "variables",
-        "target_name": "Status"
-      },
-      {
-        "file_path": "semantic/emphasis.json",
-        "target_type": "variables",
-        "target_name": "Emphasis"
-      },
-      {
-        "file_path": "state/interaction.json",
-        "target_type": "variables",
-        "target_name": "Interaction States"
-      },
-      {
-        "file_path": "state/combinable.json",
-        "target_type": "variables",
-        "target_name": "Combinable States"
-      },
-      {
-        "file_path": "component/button.json",
-        "target_type": "variables",
-        "target_name": "Button"
+        "source": "theme.dark",
+        "affects": ["elevation"],
+        "rule": "Dark themes may require adjusted shadow intensities"
       }
     ]
   },
 
-  "ontology": {
-    "volatility_classes": ["immutable", "stable", "semi-stable", "volatile", "inherited"],
-    "detection_mechanisms": ["inferred", "declared", "computed"],
-    "resolution_precedence": [
-      "accessibility_overrides",
-      "explicit_declarations",
-      "context_type",
-      "inherited_context",
-      "platform_defaults",
-      "system_defaults"
-    ]
+  "namedContextTypes": [
+    {
+      "name": "mobile-light",
+      "dimensions": {
+        "viewport": "mobile",
+        "theme": "light",
+        "density": "comfortable"
+      }
+    },
+    {
+      "name": "mobile-dark",
+      "dimensions": {
+        "viewport": "mobile",
+        "theme": "dark",
+        "density": "comfortable"
+      }
+    },
+    {
+      "name": "desktop-light",
+      "dimensions": {
+        "viewport": "desktop",
+        "theme": "light",
+        "density": "comfortable"
+      }
+    },
+    {
+      "name": "desktop-dark",
+      "dimensions": {
+        "viewport": "desktop",
+        "theme": "dark",
+        "density": "comfortable"
+      }
+    },
+    {
+      "name": "kiosk",
+      "dimensions": {
+        "viewport": "desktop",
+        "theme": "dark",
+        "density": "spacious",
+        "contrast": "high"
+      }
+    },
+    {
+      "name": "print",
+      "dimensions": {
+        "theme": "light",
+        "contrast": "high",
+        "motion": "none",
+        "elevation": "base"
+      }
+    },
+    {
+      "name": "high-contrast",
+      "dimensions": {
+        "contrast": "high",
+        "elevation": "base"
+      }
+    },
+    {
+      "name": "reduced-motion",
+      "dimensions": {
+        "motion": "reduced"
+      }
+    },
+    {
+      "name": "compact-ui",
+      "dimensions": {
+        "density": "compact",
+        "typography": "technical"
+      }
+    },
+    {
+      "name": "editorial-reading",
+      "dimensions": {
+        "density": "spacious",
+        "typography": "editorial"
+      }
+    }
+  ],
+
+  "metadata": {
+    "generatedAt": "2026-01-21T00:00:00Z",
+    "specVersion": "W3C Design Tokens Community Group Draft",
+    "ontologyVersion": "2.0.0",
+    "totalCollections": 9,
+    "totalModes": 31,
+    "totalTokens": "~2500"
   }
 }
