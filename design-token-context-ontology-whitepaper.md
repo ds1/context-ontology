@@ -35,6 +35,10 @@ Our analysis reveals that existing ontologies cover approximately 60% of real-wo
 5. [Recommendations](#5-recommendations)
 6. [Proposed Token Architecture](#6-proposed-token-architecture)
 7. [Conclusion](#7-conclusion)
+8. [Appendices](#appendix-a-terminology-reference)
+   - A. Terminology Reference
+   - B. Referenced Design Systems
+   - C. Referenced Specifications
 
 ---
 
@@ -67,15 +71,41 @@ This analysis covers:
 
 ## 2. Methodology
 
-Our analysis employed a systematic evaluation framework applied to each of the twelve context categories:
+Our analysis employed a systematic four-phase evaluation framework:
 
-1. **Inventory assessment**: Document current dimension enumerations and detection mechanisms
-2. **Validation against implementations**: Compare against major design system implementations
-3. **Gap identification**: Identify missing values, naming inconsistencies, and detection limitations
-4. **Dependency mapping**: Trace cross-category relationships and conflicts
-5. **Edge case documentation**: Catalog scenarios that challenge current approaches
+### Phase 1: Taxonomy Construction
 
-Sources examined include W3C CSS specifications, WCAG accessibility guidelines, platform documentation from Apple, Google, and Microsoft, and published design system documentation from Adobe, IBM, Atlassian, SAP, and Salesforce.
+We inventoried context dimensions from production design systems including Material Design 3, IBM Carbon, Atlassian Design System, Adobe Spectrum, Salesforce Lightning, SAP Fiori, and GitHub Primer. For each system, we documented:
+
+- Dimension enumerations and their values
+- Detection mechanisms (CSS media queries, JavaScript APIs, platform-specific methods)
+- Token naming conventions and hierarchies
+
+### Phase 2: Validation Testing
+
+Each dimension underwent validation against authoritative specifications:
+
+- **CSS Specifications**: Media Queries Level 5, Color Level 4, Containment Level 3, Writing Modes Level 4
+- **Accessibility Standards**: WCAG 2.2, WAI-ARIA 1.2
+- **Platform Documentation**: Apple Human Interface Guidelines, Material Design, Microsoft Fluent
+
+This phase identified enumeration completeness gaps and detection mechanism viability.
+
+### Phase 3: Dependency Mapping
+
+Cross-category relationships were documented through systematic pairwise analysis:
+
+- **Explicit dependencies**: Documented in source design systems
+- **Implicit dependencies**: Discovered through edge case testing
+- **Conditional dependencies**: Active only under specific context conditions
+
+### Phase 4: Edge Case Synthesis
+
+Conflict scenarios were constructed by combining dimensions across categories to identify:
+
+- Resolution ambiguities where multiple valid interpretations exist
+- Breaking conditions where current approaches fail
+- Compound states requiring explicit handling
 
 ---
 
@@ -1001,18 +1031,53 @@ As web platform capabilities expand—particularly container queries, foldable d
 
 ---
 
-## Appendix: Terminology Reference
+## Appendix A: Terminology Reference
 
 | Term | Definition |
 |------|------------|
 | **Context** | An environmental or user-preference condition that affects token resolution |
 | **Dimension** | A single axis within a context category (e.g., "color mode" within Appearance) |
 | **Enumeration** | The set of valid values for a dimension |
+| **Detection mechanism** | Method for determining current dimension value (CSS query, JavaScript API, platform API) |
 | **Cross-category dependency** | A relationship where one context category affects another |
 | **Token resolution** | The process of determining the concrete value for a token given current contexts |
 | **Mutually exclusive states** | States where only one can be active at a time |
 | **Additive states** | States that can combine freely |
+| **Edge case** | Scenario where multiple dimensions create resolution ambiguity |
 
 ---
 
-*This whitepaper was prepared based on analysis of W3C CSS specifications, WCAG guidelines, and published design system documentation from Adobe, IBM, Atlassian, Google, SAP, Salesforce, and others.*
+## Appendix B: Referenced Design Systems
+
+The following design systems were analyzed in preparing this whitepaper:
+
+| Design System | Organization | Key Contributions |
+|---------------|--------------|-------------------|
+| Material Design 3 | Google | Tonal elevation, dynamic color, density scale |
+| IBM Carbon | IBM | Layer-based contextual tokens, theme zones |
+| Atlassian Design System | Atlassian | Z-index semantic layers, color mode handling |
+| Adobe Spectrum | Adobe | Token explosion analysis, component-level patterns |
+| Salesforce Lightning | Salesforce | Status/feedback token taxonomy |
+| SAP Fiori | SAP | Density switching, cozy/compact patterns |
+| GitHub Primer | GitHub | CVD-safe themes, dark-dimmed variant |
+| AWS Cloudscape | Amazon | Density terminology, component patterns |
+| GitLab Pajamas | GitLab | Status vs feedback token distinction |
+
+---
+
+## Appendix C: Referenced Specifications
+
+| Specification | Version | Relevance |
+|---------------|---------|-----------|
+| W3C Design Tokens Community Group Format | Draft | Token interchange format |
+| CSS Color Level 4 | CR | Color spaces, gamut mapping |
+| CSS Media Queries Level 5 | WD | Preference queries, viewport segments |
+| CSS Containment Level 3 | CR | Container queries, style queries |
+| CSS Writing Modes Level 4 | CR | Vertical text, bidirectional handling |
+| WAI-ARIA 1.2 | REC | Accessibility state mappings |
+| WCAG 2.2 | REC | Accessibility requirements, target sizes |
+| Screen Fold API | Draft | Foldable device posture detection |
+
+---
+
+*This whitepaper was prepared based on analysis of the specifications and design systems listed above.*
